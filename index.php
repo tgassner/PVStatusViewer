@@ -1,0 +1,587 @@
+<html>
+<head>
+<title>PV Status Viewer</title>
+<script src="js/jquery-3.6.0.min.js"></script>
+<script src="js/chart.min.js"></script>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+</head>
+<body>
+
+<div id="nachtPauseDiv" style="width: 100%;height: 100%;position: absolute;top: 0;left: 0;background: #666666;font-size: 100px; font-weight: bold;margin:auto;text-align: center;padding-top:10%">
+	Nachtpause
+</div>
+
+
+<table style="height:100%; width:100%;table-layout: fixed;">
+	<tr style="height:45%">
+		<td style="width:20%;height:40%;border: 1px solid #000" colspan="1">
+            <div id="OverviewBarInfoDiv" style="text-align: center; font-family:khand, Helvetica, Arial, sans-serif; color: rgb(0,150,190); font-size: 28px"></div>
+            <div style="height:80%">
+			  <canvas id="chartBarCanvas"></canvas>
+			</div>
+		</th>
+        <td style="width:17%;height:40%;border: 1px solid #000;" colspan="1">
+            <div style="height:90%">
+                <canvas id="chartPieCanvas"></canvas>
+            </div>
+        </th>
+		<td style="width:43%;height:40%;border: 1px solid #000;" colspan="3">
+            <div id="smallHistoryInfoDiv" style="text-align: center; font-family:khand, Helvetica, Arial, sans-serif; color: rgb(0,150,190); font-size: 28px"></div>
+            <div style="height:95%">
+			  <canvas id="chartSmallHistoryCanvas"></canvas>
+			</div>
+		</th>
+		<td style="width:20%;height:40%;border: 1px solid #000;text-align: center;">
+			<div style="height:8%;"><img src="img/td_sz.svg" style="height:100%;width:100%"></div>
+			<div style="height:25%"><img src="img/token_gelb.svg" style="width:140px"></div>
+			<div style="height:20%;font-size: 35px; font-weight: bold; padding-top:30px;padding-bottom:20px;center; font-family:khand, Helvetica, Arial, sans-serif; "> Stromverbrauchs<br>Übersicht </div>
+			<div style="height:12%"><img src="img/PLEXIGLAS-in-jeder-Form.svg" style="height:100%;width:30%"></div>
+		</th>
+	</tr>
+	<tr style="height:50%">
+		<td style="width:50%;height:50%;text-align: center;border: 1px solid #000" colspan="4">
+            <div id="largeHistoryInfoDiv" style="text-align: center; font-family:khand, Helvetica, Arial, sans-serif; color: rgb(0,150,190); font-size: 28px">
+            </div>
+			<div style="height:85%">
+			  <canvas id="chartLargeHistoryCanvas"></canvas>
+			</div>
+		</th>
+		<td style="width:50%;height:50%;border: 1px solid #000" colspan="2">
+			<div style="padding-left:10px; padding-right:10px;font-family:khand, Helvetica, Arial, sans-serif;">
+				<table style="width:100%;height:100%;">
+					<tr>
+						<td style="width:25%;height:20%;text-align: center; padding-top:30px">
+							<div id="pvValueDiv" style="font-size: 35px; font-weight: bold"></div>
+						</td>
+						<td style="width:12.5%;height:20%;text-align: center">
+							
+						</td>
+						<td style="width:25%;height:20%;text-align: center; padding-top:30px">
+							<div id="loadValueDiv" style="font-size: 35px; font-weight: bold"></div>
+						</td>
+						<td style="width:12.5%;height:20%;text-align: center">
+							
+						</td>
+						<td style="width:25%;height:20%;text-align: center; padding-top:30px">
+							<div id="gridValueDiv" style="font-size: 35px; font-weight: bold"></div>
+						</td>
+					</tr>
+					
+					<tr>
+						<td style="width:25%;height:20%;text-align: center">
+							<img id="ActivePVImg" src="img/PvActive.svg" style="height:100%;width:100%">
+							<img id="InactivePV" src="img/PvInactive.svg" style="height:100%;width:100%">
+						</td>
+						<td style="width:12.5%;height:20%;text-align: center">
+							<img id="pvArrowImg" src="img/GreenArrowRight.svg" style="height:100%;width:100%">
+						</td>
+						<td style="width:25%;height:20%;text-align: center">
+							<img id="ProductionActiveImg" src="img/ProductionActive.svg" style="height:100%;width:100%">
+							<img id="ProductionInActiveImg" src="img/ProductionInActive.svg" style="height:100%;width:100%">
+						</td>
+						<td style="width:12.5%;height:20%;text-align: center">
+							<img id="gridArrowLeftImg" src="img/OrangeArrowLeft.svg" style="height:100%;width:100%">
+							<img id="gridArrowRightImg" src="img/GreenArrowRight.svg" style="height:100%;width:100%">
+						</td>
+						<td style="width:25%;height:20%;text-align: center">
+							<img id="ActiveNetImg" src="img/GridNetActiveNet.svg" style="height:100%;width:100%">
+							<img id="InactiveNetImg" src="img/GridNetInactiveNet.svg" style="height:100%;width:100%">
+						</td>
+					</tr>
+				</table>
+			</div>
+		</th>
+	</tr>
+</table>
+<div>
+
+<script>
+	const currentPowerFlowDownloaderUrl = "currentPowerFlowDownloader.php";
+	const powerDetailsDownloaderUrl = "powerDetailsDownloader.php";
+	const timeDownloaderUrl = "timeDownloader.php";
+
+	var currentPowerUnit;
+	var gridStatus;
+	var gridPower;
+	var loadStatus;
+	var loadPower;
+	var pvStatus;
+	var pvPower;
+	var overageVar;
+	var countCurrentPowerFlow = 0;
+	var countPowerDetails = 0;
+	var countTime = 0;
+	var timeStampCurrentPowerFlow = "";
+	
+	var timeUnitPowerDetails;
+	var powerUnitPowerDetails;
+	var historyLastTimeUpdateView;
+	
+	var chartPie = null;
+	var chartBar = null;
+	var chartLargeHistory = null;
+	var chartSmallHistory = null;
+		
+	var largeHistoryDataStructure = [];
+	var smallHistoryDataStructure = [];
+	
+	currentPowerFlowDownloader();
+	setInterval(currentPowerFlowDownloader, 5000);
+
+	powerDetailsDownloader();
+	setInterval(powerDetailsDownloader, 1000 * 60 * 15); // 15 Minuten
+
+    function powerDetailsDownloader() {
+		if (isTimeOK()) {
+			document.getElementById('nachtPauseDiv').style.display = "none";
+		} else {
+			document.getElementById('nachtPauseDiv').style.display = "block";
+			return;
+		}
+		
+		jQuery.getJSON(timeDownloaderUrl, function(jsonTime) {
+			console.log("Number of calls time: " + ++countTime);
+			var $start = jsonTime.start;
+			var $end = jsonTime.end;
+			historyLastTimeUpdateView = jsonTime.view;
+			
+			var powerDetailsDownloaderUrlWithTime = powerDetailsDownloaderUrl + "?start=" + $start + "&end=" + $end;
+			jQuery.getJSON(powerDetailsDownloaderUrlWithTime, function(json) {
+				console.log("Number of calls PowerDetails: " + ++countPowerDetails);
+				timeUnitPowerDetails = json.powerDetails.timeUnit;
+				powerUnitPowerDetails = json.powerDetails.unit
+				
+				for (const meter of json.powerDetails.meters) {
+					var metertype = meter.type.toLowerCase();
+					for (const value of meter.values) {
+						if ((typeof value !== 'undefined' && value) 
+							&& (typeof value.date !== 'undefined' && value.date) 
+							&& (typeof value.value !== 'undefined')) {
+								
+								let time = value.date.substring(11, 16);
+								let valueLocal = (!(value.value)) ? 0 : value.value;
+								
+								if (!(time in largeHistoryDataStructure)) {
+									var lineValues = [];
+									lineValues["production"] = 0;
+									lineValues["consumption"] = 0;
+									lineValues["purchased"] = 0;
+									lineValues["selfconsumption"] = 0;
+									lineValues["feedin"] = 0;
+									largeHistoryDataStructure[time] = lineValues;
+								}
+
+								largeHistoryDataStructure[time][metertype] = valueLocal;
+						}
+					}
+				}
+				
+				// PV == Production: 36894.0
+				// Exportieren == FeedIn: 0.0
+				// Verbrauch == Load == Consumption: 49430.676
+				// Importieren == Purchased: 12536.675
+				// Verbraucht von PV == SelfConsumption: 36894.0
+			
+				drawLargeHistory();
+				
+			}).fail(function(a, b, c) {
+				console.log("error " + a + b + c + "   used Url:" + powerDetailsDownloaderUrlWithTime);
+			});
+		}).fail(function(a, b, c) {
+			console.log("error " + a + b + c + "     used Url: " + timeDownloaderUrl);
+		});
+	}
+
+	function currentPowerFlowDownloader() {
+		if (isTimeOK()) {
+			document.getElementById('nachtPauseDiv').style.display = "none";
+		} else {
+			document.getElementById('nachtPauseDiv').style.display = "block";
+			return;
+		}
+		
+		jQuery.getJSON(currentPowerFlowDownloaderUrl, function(json) {
+			console.log("Number of calls currentPowerFlow: " + ++countCurrentPowerFlow);
+			currentPowerUnit = json.siteCurrentPowerFlow.unit;
+			gridStatus = json.siteCurrentPowerFlow.GRID.status;
+			gridPower = json.siteCurrentPowerFlow.GRID.currentPower;
+			loadStatus = json.siteCurrentPowerFlow.LOAD.status;
+			loadPower = json.siteCurrentPowerFlow.LOAD.currentPower;
+			pvStatus = json.siteCurrentPowerFlow.PV.status;;
+			pvPower = json.siteCurrentPowerFlow.PV.currentPower;
+
+			overageVar = null;
+			for (const connection of json.siteCurrentPowerFlow.connections) {
+				if (connection.from.toLowerCase() == "load" && connection.to.toLowerCase() == "grid") {
+					overageVar = true;
+				}
+				
+				if (connection.from.toLowerCase() == "grid" && connection.to.toLowerCase() == "load") {
+					overageVar = false;
+				}
+			}
+			
+			var currentdate = new Date(); 
+			timeStampCurrentPowerFlow =
+				  ((currentdate.getHours()     < 10) ? "0" : "") + currentdate.getHours()     + ":"  
+                + ((currentdate.getMinutes()   < 10) ? "0" : "") + currentdate.getMinutes()   + ":" 
+                + ((currentdate.getSeconds()   < 10) ? "0" : "") + currentdate.getSeconds()   + " "
+				+ ((currentdate.getDate()      < 10) ? "0" : "") + currentdate.getDate()      + "."
+				+ (((currentdate.getMonth()+1) < 10) ? "0" : "") + (currentdate.getMonth()+1) + "."
+				+ ((currentdate.getFullYear()  < 10) ? "0" : "") + currentdate.getFullYear();
+
+            let timeStampSmallHistory =
+                ((currentdate.getHours()     < 10) ? "0" : "") + currentdate.getHours()     + ":"
+                + ((currentdate.getMinutes()   < 10) ? "0" : "") + currentdate.getMinutes()   + ":"
+                + ((currentdate.getSeconds()   < 10) ? "0" : "") + currentdate.getSeconds();
+
+            var lineValues = [];
+            lineValues["gridPower"] = gridPower;
+            lineValues["loadPower"] = loadPower;
+            lineValues["pvPower"] = pvPower;
+            lineValues["overage"] = overage();
+            smallHistoryDataStructure[timeStampSmallHistory] = lineValues;
+            console.log(gridPower);
+            console.log(smallHistoryDataStructure);
+            if (Object.keys(smallHistoryDataStructure).length > 20) {
+                var keys = Object.keys(smallHistoryDataStructure);
+                keys.sort;
+                firstKey = keys[0];
+                delete smallHistoryDataStructure[firstKey];
+            }
+
+			drawCurrrentViews();
+			
+		}).fail(function(a, b, c) {
+			console.log("error " + a + b + c + "    used Url: " + currentPowerFlowDownloaderUrl);
+		});
+	}
+	
+	function drawCurrrentViews() {
+		drawBar();
+		drawPie();
+        drawSmallHistory();
+		adaptOverview();
+	}
+	
+	function overage() {
+		const overageViaPower = parseFloat(pvPower) > parseFloat(loadPower);
+		if (overageVar != null && overageViaPower != overageVar) {
+			console.log("Error 1\r\noverageViaPower: " + overageViaPower + "\r\noverageVar: " + overageVar);
+		}
+		return overageVar;
+	}
+	
+	function drawBar() {
+		  const data = {
+			labels: [
+				'PV',
+				'Verbrauch',
+				'Stromnetz',
+			  ],
+			/*borderWidth: 1,*/
+			datasets: [{
+			  label: "",
+			  backgroundColor: [
+				  'rgba(144, 238, 144, 0.5)',
+				  'rgba(255, 255, 224, 0.5)',
+				  'rgba(205, 92, 92, 0.5)'],
+			  borderColor: [
+				  'rgb(0, 238, 0)',
+				  'rgb(255, 255, 0, 64)',
+				  'rgb(255, 0, 0)'],
+			  borderWidth: 1,
+			  data: [pvPower, loadPower, overage() ? ("-" + gridPower) : gridPower],
+			  fill: 'none',
+			}]
+		  };
+
+
+		  const config = {
+			  type: 'bar',
+			  data: data,
+			  /*borderWidth: 1,*/
+			  options: {
+				maintainAspectRatio: false,
+				scales: {
+				  y: {
+					beginAtZero: true,
+				  }
+				},
+				animation: {
+				   duration: false,
+				}
+			  },
+			};
+		
+		if (chartBar != null) {
+			chartBar.destroy();
+		}
+		
+		chartBar = new Chart(document.getElementById('chartBarCanvas').getContext('2d'), config);
+        document.getElementById('OverviewBarInfoDiv').innerHTML = "Übersicht - Einheit = [" + currentPowerUnit + "]" + " - last Update= " + timeStampCurrentPowerFlow;
+	}
+	
+	function drawPie() {
+		var labels;
+		if (overage()) {
+			labels = [
+				'PV',
+			  ];
+		} else {
+			labels = [
+				'PV',
+				'Stromnetz',
+            ];
+		}
+
+		var datadata;
+		if (overage()) {
+			datadata = [loadPower];
+		} else {
+			datadata = [pvPower, gridPower];
+		}
+		
+
+		  const data = {
+			labels: labels,
+			datasets: [{
+			  label: 'Verbrauchsanteile',
+			  backgroundColor: [
+				  'rgba(144, 238, 144, 0.5)',
+				  'rgba(205, 92, 92, 0.5)'],
+			  borderColor: [
+				  'rgb(0, 238, 0)',
+				  'rgb(255, 0, 0)'],
+			  data: datadata,
+			  fill: 'none',
+			}]
+		  };
+
+		  const config = {
+			  type: 'pie',
+			  data: data,
+			  options: {
+				maintainAspectRatio: false,
+				animation: {
+					duration: false
+				}
+			  },
+			};
+		
+		if (chartPie != null) {
+			chartPie.destroy();
+		}
+		
+		chartPie = new Chart(document.getElementById('chartPieCanvas').getContext('2d'), config);
+	}
+
+    function drawSmallHistory() {
+        console.log(smallHistoryDataStructure);
+        var times = Object.keys(smallHistoryDataStructure);
+        times.sort;
+
+        var historyProductionValues = [];
+        var historyVerbrauchValues = [];
+        var historyImportValues = [];
+
+        for (const time of times){
+            var timeEntry = smallHistoryDataStructure[time];
+            let overage = timeEntry["overage"];
+            console.log("overage");
+            console.log(overage);
+            let gridPwr = timeEntry["gridPower"];
+            console.log("Gridpower");
+            console.log(gridPwr);
+            historyImportValues.push(timeEntry["gridPower"] = overage ? (-1 * gridPwr) : gridPwr);
+            historyVerbrauchValues.push(timeEntry["loadPower"]);
+            historyProductionValues.push(timeEntry["pvPower"]);
+        }
+
+        const data = {
+            labels: times,
+            datasets: [{
+                label: 'PV Produktion',
+                backgroundColor: 'rgb(144, 238, 144)',
+                borderColor: 'rgb(0, 255, 0)',
+                data: historyProductionValues,
+                fill: 'none',
+            },{
+                label: 'Verbrauch gesamt',
+                backgroundColor: 'rgb(255, 255, 224)',
+                borderColor: 'rgb(255, 255, 0)',
+                data: historyVerbrauchValues,
+                fill: 'none',
+            },{
+                label: 'Netz Import/Export',
+                backgroundColor: 'rgb(205, 92, 92)',
+                borderColor: 'rgb(255, 0, 0)',
+                data: historyImportValues,
+                fill: 'none',
+            }]
+        };
+
+        const config = {
+            type: 'line',
+            data: data,
+            options : {
+                maintainAspectRatio: false,
+                animation: {
+                    duration: false,
+                }
+            }
+        };
+
+        if (chartSmallHistory != null) {
+            chartSmallHistory.destroy();
+        }
+
+        chartSmallHistory = new Chart(document.getElementById('chartSmallHistoryCanvas').getContext('2d'), config);
+        document.getElementById('smallHistoryInfoDiv').innerHTML = "Kurze genaue History - Einheit = [" + currentPowerUnit + "] ";
+    }
+
+	function drawLargeHistory() {
+		  var times = Object.keys(largeHistoryDataStructure);
+		  times.sort;
+		  
+		  var historyProductionValues = [];
+		  var historyVerbrauchValues = [];
+		  var historyImportValues = [];
+		  var historyVerwendetenPVStromValues = [];
+		  var historyExportiertenPVStromValues = [];
+		  
+		  for (const time of times){
+			  var timeEntry = largeHistoryDataStructure[time];
+		      historyProductionValues.push(timeEntry["production"]);
+			  historyVerbrauchValues.push(timeEntry["consumption"]);
+			  historyImportValues.push(timeEntry["purchased"]);
+			  historyVerwendetenPVStromValues.push(timeEntry["selfconsumption"]);
+			  historyExportiertenPVStromValues.push(timeEntry["feedin"]);
+		  }
+		  
+		  const data = {
+			labels: times, /*historyProductionLabels, */
+			datasets: [{
+			  label: 'PV Produktion',
+			  backgroundColor: 'rgb(144, 238, 144)',
+			  borderColor: 'rgb(0, 255, 0)',
+			  data: historyProductionValues,
+			  fill: 'none',
+			},{
+			  label: 'Verbrauch gesamt',
+			  backgroundColor: 'rgb(255, 255, 224)',
+			  borderColor: 'rgb(255, 255, 0)',
+			  data: historyVerbrauchValues,
+			  fill: 'none',
+			},{
+			  label: 'import vom Netz',
+			  backgroundColor: 'rgb(205, 92, 92)',
+			  borderColor: 'rgb(255, 0, 0)',
+			  data: historyImportValues,
+			  fill: 'none',
+			},{
+			  label: 'Verbrauchten PV Strom',
+			  backgroundColor: 'rgb(64,224,208)',
+			  borderColor: 'rgb(0,206,209)',
+			  data: historyVerwendetenPVStromValues,
+			  fill: 'none',
+			},{
+			  label: 'Exportierten PV Strom',
+			  backgroundColor: 'rgb(173,216,230)',
+			  borderColor: 'rgb(0, 0, 255)',
+			  data: historyExportiertenPVStromValues,
+			  fill: 'none',
+			}]
+		  };
+
+		  const config = {
+			type: 'line',
+			data: data,
+			options : {
+				maintainAspectRatio: false,
+				animation: {
+					duration: false,
+				}
+			}
+		  };
+		
+		if (chartLargeHistory != null) {
+			chartLargeHistory.destroy();
+		}
+		
+		chartLargeHistory = new Chart(document.getElementById('chartLargeHistoryCanvas').getContext('2d'), config);
+		document.getElementById('largeHistoryInfoDiv').innerHTML = "Tages History - Einheit = [" + powerUnitPowerDetails + "] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Letztes Update: " + historyLastTimeUpdateView;
+	}
+	
+	function adaptOverview() {
+		document.getElementById('pvValueDiv').innerHTML = pvPower + " " + currentPowerUnit;
+		document.getElementById('loadValueDiv').innerHTML = loadPower + " " + currentPowerUnit;
+		document.getElementById('gridValueDiv').innerHTML = gridPower + " " + currentPowerUnit;
+		
+		if (pvStatus == "Active") {
+			document.getElementById('ActivePVImg').style.display = "inline";
+			document.getElementById('InactivePV').style.display = "none";
+			document.getElementById('pvArrowImg').style.display = "inline";
+		} else {
+			document.getElementById('ActivePVImg').style.display = "none";
+			document.getElementById('InactivePV').style.display = "inline";
+			document.getElementById('pvArrowImg').style.display = "none";
+		}
+		
+		if (gridStatus == "Active") {
+			document.getElementById('ActiveNetImg').style.display = "inline";
+			document.getElementById('InactiveNetImg').style.display = "none";
+			
+			if (overage()) {
+				document.getElementById('gridArrowLeftImg').style.display = "none";
+				document.getElementById('gridArrowRightImg').style.display = "inline";
+			} else {
+				document.getElementById('gridArrowLeftImg').style.display = "inline";
+				document.getElementById('gridArrowRightImg').style.display = "none";
+			}
+			
+			
+		} else {
+			document.getElementById('ActiveNetImg').style.display = "none";
+			document.getElementById('InactiveNetImg').style.display = "inline";
+			document.getElementById('gridArrowLeftImg').style.display = "none";
+			document.getElementById('gridArrowRightImg').style.display = "none";
+		}
+		
+		if (loadStatus == "Active") {
+			document.getElementById('ProductionActiveImg').style.display = "inline";
+			document.getElementById('ProductionInActiveImg').style.display = "none";
+		} else {
+			document.getElementById('ProductionActiveImg').style.display = "none";
+			document.getElementById('ProductionInActiveImg').style.display = "inline";
+			document.getElementById('pvArrowImg').style.display = "none";
+			document.getElementById('gridArrowLeftImg').style.display = "none";
+			document.getElementById('gridArrowRightImg').style.display = "none";
+		}
+	}
+	
+	function isTimeOK() {
+		let startTime = '05:49:00';
+		let endTime = '20:00:00';
+
+		let currentDate = new Date()   
+
+		startDate = new Date(currentDate.getTime());
+		startDate.setHours(startTime.split(":")[0]);
+		startDate.setMinutes(startTime.split(":")[1]);
+		startDate.setSeconds(startTime.split(":")[2]);
+
+		endDate = new Date(currentDate.getTime());
+		endDate.setHours(endTime.split(":")[0]);
+		endDate.setMinutes(endTime.split(":")[1]);
+		endDate.setSeconds(endTime.split(":")[2]);
+
+		var valid = startDate < currentDate && endDate > currentDate;
+		
+		return valid;
+	}
+	
+</script>
+
+</body>
+<html>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="56px" height="56px" viewBox="0 0 56 56" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>dashboard_arrow_green_right</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="ARROWS" transform="translate(0.000000, -19.000000)">
+            <g id="dashboard_arrow_green_right" transform="translate(0.000000, 19.000000)">
+                <rect id="Rectangle" fill="#FFFFFF" x="0" y="18" width="44" height="21"></rect>
+                <polygon id="arrow_green_shape" fill="#00AA55" points="42.73 31.994 35.014 40.1384277 39.9101562 45.1191406 56.028 28.494 39.9101562 11.885498 35.014 16.8449707 42.731 24.994 14.001 24.994 14.001 31.994"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>

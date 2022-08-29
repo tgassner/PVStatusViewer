@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="96px" height="96px" viewBox="0 0 96 96" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>ic_commercial_disabled</title>
+    <desc>Created with Sketch.</desc>
+    <defs/>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" opacity="0.4">
+        <g id="COMMERCIAL" transform="translate(0.000000, -332.000000)">
+            <g id="ic_commercial_disabled" transform="translate(0.000000, 332.000000)">
+                <g id="ic_commercial_disabled_shapes" transform="translate(14.000000, 39.000000)">
+                    <path d="M0,40 L0,5.86457274 L1.01230376,5.87702882 L11,6 L21,6 L30.9876962,6.00007569 L41.0047325,5.87696432 L68,6.00472137 L68,40 L0,40 Z" id="Path-3" stroke="#666666" stroke-width="2"/>
+                    <polygon id="Rectangle-6" fill="#666666" points="0 5 15 0 15 5 28.9461058 0 28.9461058 5 43 0 43 6 0 6"/>
+                    <g id="ic_commercial_inactive_shapes" transform="translate(7.000000, 14.000000)" fill="#ABABAB" fill-rule="nonzero" stroke="#666666" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                        <rect id="Rectangle-path" x="0" y="12" width="6" height="6"/>
+                        <rect id="Rectangle-path" x="6" y="12" width="6" height="6"/>
+                        <rect id="Rectangle-path" x="12" y="12" width="6" height="6"/>
+                        <rect id="Rectangle-path" x="18" y="12" width="6" height="6"/>
+                        <rect id="Rectangle-path" x="24" y="12" width="6" height="6"/>
+                        <rect id="Rectangle-path" x="30" y="12" width="6" height="6"/>
+                        <rect id="Rectangle-path" x="36" y="12" width="6" height="6"/>
+                        <rect id="Rectangle-path" x="42" y="12" width="6" height="6"/>
+                        <rect id="Rectangle-path" x="0" y="0" width="6" height="6"/>
+                        <rect id="Rectangle-path" x="6" y="0" width="6" height="6"/>
+                        <rect id="Rectangle-path" x="12" y="0" width="6" height="6"/>
+                        <rect id="Rectangle-path" x="18" y="0" width="6" height="6"/>
+                        <rect id="Rectangle-path" x="24" y="0" width="6" height="6"/>
+                        <rect id="Rectangle-path" x="30" y="0" width="6" height="6"/>
+                        <rect id="Rectangle-path" x="36" y="0" width="6" height="6"/>
+                        <rect id="Rectangle-path" x="42" y="0" width="6" height="6"/>
+                        <rect id="Rectangle-path" x="48" y="12" width="6" height="6"/>
+                        <rect id="Rectangle-path" x="48" y="0" width="6" height="6"/>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

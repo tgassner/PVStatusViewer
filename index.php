@@ -102,7 +102,7 @@
 
 	var currentPowerUnit;
 	var gridStatus;
-	var gridPower;
+	var gridPowerGlobal;
 	var loadStatus;
 	var loadPower;
 	var pvStatus;
@@ -140,14 +140,14 @@
 		}
 		
 		jQuery.getJSON(timeDownloaderUrl, function(jsonTime) {
-			console.log("Number of calls time: " + ++countTime);
+			//console.log("Number of calls time: " + ++countTime);
 			var $start = jsonTime.start;
 			var $end = jsonTime.end;
 			historyLastTimeUpdateView = jsonTime.view;
 			
 			var powerDetailsDownloaderUrlWithTime = powerDetailsDownloaderUrl + "?start=" + $start + "&end=" + $end;
 			jQuery.getJSON(powerDetailsDownloaderUrlWithTime, function(json) {
-				console.log("Number of calls PowerDetails: " + ++countPowerDetails);
+				//console.log("Number of calls PowerDetails: " + ++countPowerDetails);
 				timeUnitPowerDetails = json.powerDetails.timeUnit;
 				powerUnitPowerDetails = json.powerDetails.unit
 				
@@ -185,7 +185,7 @@
 				drawLargeHistory();
 				
 			}).fail(function(a, b, c) {
-				console.log("error " + a + b + c + "   used Url:" + powerDetailsDownloaderUrlWithTime);
+				 log("error " + a + b + c + "   used Url:" + powerDetailsDownloaderUrlWithTime);
 			});
 		}).fail(function(a, b, c) {
 			console.log("error " + a + b + c + "     used Url: " + timeDownloaderUrl);
@@ -201,10 +201,9 @@
 		}
 		
 		jQuery.getJSON(currentPowerFlowDownloaderUrl, function(json) {
-			console.log("Number of calls currentPowerFlow: " + ++countCurrentPowerFlow);
 			currentPowerUnit = json.siteCurrentPowerFlow.unit;
 			gridStatus = json.siteCurrentPowerFlow.GRID.status;
-			gridPower = json.siteCurrentPowerFlow.GRID.currentPower;
+			gridPowerGlobal = json.siteCurrentPowerFlow.GRID.currentPower;
 			loadStatus = json.siteCurrentPowerFlow.LOAD.status;
 			loadPower = json.siteCurrentPowerFlow.LOAD.currentPower;
 			pvStatus = json.siteCurrentPowerFlow.PV.status;;
@@ -231,18 +230,18 @@
 				+ ((currentdate.getFullYear()  < 10) ? "0" : "") + currentdate.getFullYear();
 
             let timeStampSmallHistory =
-                ((currentdate.getHours()     < 10) ? "0" : "") + currentdate.getHours()     + ":"
+                  ((currentdate.getHours()     < 10) ? "0" : "") + currentdate.getHours()     + ":"
                 + ((currentdate.getMinutes()   < 10) ? "0" : "") + currentdate.getMinutes()   + ":"
                 + ((currentdate.getSeconds()   < 10) ? "0" : "") + currentdate.getSeconds();
 
             var lineValues = [];
-            lineValues["gridPower"] = gridPower;
+            lineValues["gridPower"] = gridPowerGlobal;
             lineValues["loadPower"] = loadPower;
             lineValues["pvPower"] = pvPower;
             lineValues["overage"] = overage();
             smallHistoryDataStructure[timeStampSmallHistory] = lineValues;
-            console.log(gridPower);
-            console.log(smallHistoryDataStructure);
+
+            console.log(lineValues);
             if (Object.keys(smallHistoryDataStructure).length > 20) {
                 var keys = Object.keys(smallHistoryDataStructure);
                 keys.sort;
@@ -291,7 +290,7 @@
 				  'rgb(255, 255, 0, 64)',
 				  'rgb(255, 0, 0)'],
 			  borderWidth: 1,
-			  data: [pvPower, loadPower, overage() ? ("-" + gridPower) : gridPower],
+			  data: [pvPower, loadPower, overage() ? ("-" + gridPowerGlobal) : gridPowerGlobal],
 			  fill: 'none',
 			}]
 		  };
@@ -339,7 +338,7 @@
 		if (overage()) {
 			datadata = [loadPower];
 		} else {
-			datadata = [pvPower, gridPower];
+			datadata = [pvPower, gridPowerGlobal];
 		}
 		
 
@@ -377,7 +376,6 @@
 	}
 
     function drawSmallHistory() {
-        console.log(smallHistoryDataStructure);
         var times = Object.keys(smallHistoryDataStructure);
         times.sort;
 
@@ -388,12 +386,8 @@
         for (const time of times){
             var timeEntry = smallHistoryDataStructure[time];
             let overage = timeEntry["overage"];
-            console.log("overage");
-            console.log(overage);
             let gridPwr = timeEntry["gridPower"];
-            console.log("Gridpower");
-            console.log(gridPwr);
-            historyImportValues.push(timeEntry["gridPower"] = overage ? (-1 * gridPwr) : gridPwr);
+            historyImportValues.push(overage ? (-1 * gridPwr) : gridPwr);
             historyVerbrauchValues.push(timeEntry["loadPower"]);
             historyProductionValues.push(timeEntry["pvPower"]);
         }
@@ -516,7 +510,7 @@
 	function adaptOverview() {
 		document.getElementById('pvValueDiv').innerHTML = pvPower + " " + currentPowerUnit;
 		document.getElementById('loadValueDiv').innerHTML = loadPower + " " + currentPowerUnit;
-		document.getElementById('gridValueDiv').innerHTML = gridPower + " " + currentPowerUnit;
+		document.getElementById('gridValueDiv').innerHTML = gridPowerGlobal + " " + currentPowerUnit;
 		
 		if (pvStatus == "Active") {
 			document.getElementById('ActivePVImg').style.display = "inline";

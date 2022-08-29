@@ -185,7 +185,7 @@
 				drawLargeHistory();
 				
 			}).fail(function(a, b, c) {
-				 log("error " + a + b + c + "   used Url:" + powerDetailsDownloaderUrlWithTime);
+				 console.log("error " + a + b + c + "   used Url:" + powerDetailsDownloaderUrlWithTime);
 			});
 		}).fail(function(a, b, c) {
 			console.log("error " + a + b + c + "     used Url: " + timeDownloaderUrl);
@@ -241,7 +241,6 @@
             lineValues["overage"] = overage();
             smallHistoryDataStructure[timeStampSmallHistory] = lineValues;
 
-            console.log(lineValues);
             if (Object.keys(smallHistoryDataStructure).length > 20) {
                 var keys = Object.keys(smallHistoryDataStructure);
                 keys.sort;

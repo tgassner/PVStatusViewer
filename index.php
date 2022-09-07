@@ -47,23 +47,24 @@
 			</div>
 		</th>
 		<td style="width:50%;height:50%;border: 1px solid #000" colspan="2">
+            <div id="Uhrzeit" style="text-align: center;font-family:khand, Helvetica, Arial, sans-serif; font-size: 200px; font-weight: bolder;line-height:100px; margin-bottom: 40px"></div>
 			<div style="padding-left:10px; padding-right:10px;font-family:khand, Helvetica, Arial, sans-serif;">
 				<table style="width:100%;height:100%;">
 					<tr>
-						<td style="width:25%;height:20%;text-align: center; padding-top:30px">
-							<div id="pvValueDiv" style="font-size: 35px; font-weight: bold"></div>
+						<td style="width:25%;height:20%;text-align: center; padding-top:30px;">
+							<div id="pvValueDiv" style="font-size: 35px; font-weight: bold;line-height:5px"></div>
 						</td>
 						<td style="width:12.5%;height:20%;text-align: center">
 							
 						</td>
 						<td style="width:25%;height:20%;text-align: center; padding-top:30px">
-							<div id="loadValueDiv" style="font-size: 35px; font-weight: bold"></div>
+							<div id="loadValueDiv" style="font-size: 35px; font-weight: bold; line-height:5px"></div>
 						</td>
 						<td style="width:12.5%;height:20%;text-align: center">
 							
 						</td>
 						<td style="width:25%;height:20%;text-align: center; padding-top:30px">
-							<div id="gridValueDiv" style="font-size: 35px; font-weight: bold"></div>
+							<div id="gridValueDiv" style="font-size: 35px; font-weight: bold;line-height:5px"></div>
 						</td>
 					</tr>
 					
@@ -183,7 +184,7 @@
 				// Verbraucht von PV == SelfConsumption: 36894.0
 			
 				drawLargeHistory();
-				
+
 			}).fail(function(a, b, c) {
 				 console.log("error " + a + b + c + "   used Url:" + powerDetailsDownloaderUrlWithTime);
 			});
@@ -241,7 +242,7 @@
             lineValues["overage"] = overage();
             smallHistoryDataStructure[timeStampSmallHistory] = lineValues;
 
-            if (Object.keys(smallHistoryDataStructure).length > 20) {
+            if (Object.keys(smallHistoryDataStructure).length > 40) {
                 var keys = Object.keys(smallHistoryDataStructure);
                 keys.sort;
                 firstKey = keys[0];
@@ -253,6 +254,9 @@
 		}).fail(function(a, b, c) {
 			console.log("error " + a + b + c + "    used Url: " + currentPowerFlowDownloaderUrl);
 		});
+
+        let currentdate = new Date();
+        jQuery("#Uhrzeit").html(((currentdate.getHours()     < 10) ? "0" : "") + currentdate.getHours() + ":" + ((currentdate.getMinutes()   < 10) ? "0" : "") + currentdate.getMinutes());
 	}
 	
 	function drawCurrrentViews() {

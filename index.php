@@ -242,7 +242,7 @@
             lineValues["overage"] = overage();
             smallHistoryDataStructure[timeStampSmallHistory] = lineValues;
 
-            if (Object.keys(smallHistoryDataStructure).length > 40) {
+            if (Object.keys(smallHistoryDataStructure).length > 60) {
                 var keys = Object.keys(smallHistoryDataStructure);
                 keys.sort;
                 firstKey = keys[0];

@@ -35,7 +35,8 @@
 			<div style="height:8%;"><img src="img/td_sz.svg" style="height:100%;width:100%"></div>
 			<div style="height:25%"><img src="img/token_gelb.svg" style="width:140px"></div>
 			<div style="height:20%;font-size: 35px; font-weight: bold; padding-top:30px;padding-bottom:20px;center; font-family:khand, Helvetica, Arial, sans-serif; "> Stromverbrauchs<br>Übersicht </div>
-			<div style="height:12%"><img src="img/PLEXIGLAS-in-jeder-Form.svg" style="height:100%;width:30%"></div>
+			<div style="height:11%"><img src="img/PLEXIGLAS-in-jeder-Form.svg" style="height:100%;width:30%"></div>
+			<div style="height:1%" id="lastrefresh"></div>
 		</th>
 	</tr>
 	<tr style="height:50%">
@@ -131,6 +132,21 @@
 
 	powerDetailsDownloader();
 	setInterval(powerDetailsDownloader, 1000 * 60 * 15); // 15 Minuten
+
+    setTimeout(reloadPage, 3720000); // reload complete page every 62 minutes...
+
+    let currentdate = new Date();
+    let timeStampLastReload =
+          ((currentdate.getHours()     < 10) ? "0" : "") + currentdate.getHours()     + ":"
+        + ((currentdate.getMinutes()   < 10) ? "0" : "") + currentdate.getMinutes()   + ":"
+        + ((currentdate.getSeconds()   < 10) ? "0" : "") + currentdate.getSeconds();
+
+    jQuery("#lastrefresh").html("Last Reload:" + timeStampLastReload);
+
+    function reloadPage() {
+        let url = window.location.href;
+        window.location.href = url;
+    }
 
     function powerDetailsDownloader() {
 		if (isTimeOK()) {

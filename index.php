@@ -126,26 +126,32 @@
 		
 	var largeHistoryDataStructure = [];
 	var smallHistoryDataStructure = [];
+
+    var lastSuccessfullPowerDetailsDownload = new Date().getTime();
+    var lastSuccessfulCurrentPowerFlowDownload = new Date().getTime();
 	
 	currentPowerFlowDownloader();
-	setInterval(currentPowerFlowDownloader, 5000);
+	setInterval(currentPowerFlowDownloader, 8000);
 
 	powerDetailsDownloader();
-	setInterval(powerDetailsDownloader, 1000 * 60 * 15); // 15 Minuten
+	setInterval(powerDetailsDownloader, 1000 * 60 * 20); // 15 Minuten
 
     setTimeout(reloadPage, 3720000); // reload complete page every 62 minutes...
 
     let currentdate = new Date();
-    let timeStampLastReload =
-          ((currentdate.getHours()     < 10) ? "0" : "") + currentdate.getHours()     + ":"
-        + ((currentdate.getMinutes()   < 10) ? "0" : "") + currentdate.getMinutes()   + ":"
-        + ((currentdate.getSeconds()   < 10) ? "0" : "") + currentdate.getSeconds();
+    let timeStampLastReload = getHours(currentdate) + ":" + getMinutes(currentdate) + ":" + getSeconds(currentdate);
 
     jQuery("#lastrefresh").html("Last Reload:" + timeStampLastReload);
 
     function reloadPage() {
-        let url = window.location.href;
-        window.location.href = url;
+        let nowMillis = new Date().getTime();
+
+        if (((lastSuccessfullPowerDetailsDownload - nowMillis) > (1000 * 60 * 32)) // falls der letzte erfolgreiche long History call länger als 32 min her ist
+           || (((lastSuccessfulCurrentPowerFlowDownload - nowMillis) > (1000 * 60 * 10)))) // ODER falls der letzte erfolgreiche current value call länger als 10 min her ist
+        {
+            let url = window.location.href;
+            window.location.href = url;
+        }
     }
 
     function powerDetailsDownloader() {
@@ -155,58 +161,59 @@
 			document.getElementById('nachtPauseDiv').style.display = "block";
 			return;
 		}
-		
-		jQuery.getJSON(timeDownloaderUrl, function(jsonTime) {
-			//console.log("Number of calls time: " + ++countTime);
-			var $start = jsonTime.start;
-			var $end = jsonTime.end;
-			historyLastTimeUpdateView = jsonTime.view;
-			
-			var powerDetailsDownloaderUrlWithTime = powerDetailsDownloaderUrl + "?start=" + $start + "&end=" + $end;
-			jQuery.getJSON(powerDetailsDownloaderUrlWithTime, function(json) {
-				//console.log("Number of calls PowerDetails: " + ++countPowerDetails);
-				timeUnitPowerDetails = json.powerDetails.timeUnit;
-				powerUnitPowerDetails = json.powerDetails.unit
-				
-				for (const meter of json.powerDetails.meters) {
-					var metertype = meter.type.toLowerCase();
-					for (const value of meter.values) {
-						if ((typeof value !== 'undefined' && value) 
-							&& (typeof value.date !== 'undefined' && value.date) 
-							&& (typeof value.value !== 'undefined')) {
-								
-								let time = value.date.substring(11, 16);
-								let valueLocal = (!(value.value)) ? 0 : value.value;
-								
-								if (!(time in largeHistoryDataStructure)) {
-									var lineValues = [];
-									lineValues["production"] = 0;
-									lineValues["consumption"] = 0;
-									lineValues["purchased"] = 0;
-									lineValues["selfconsumption"] = 0;
-									lineValues["feedin"] = 0;
-									largeHistoryDataStructure[time] = lineValues;
-								}
 
-								largeHistoryDataStructure[time][metertype] = valueLocal;
-						}
-					}
-				}
-				
-				// PV == Production: 36894.0
-				// Exportieren == FeedIn: 0.0
-				// Verbrauch == Load == Consumption: 49430.676
-				// Importieren == Purchased: 12536.675
-				// Verbraucht von PV == SelfConsumption: 36894.0
-			
-				drawLargeHistory();
+        let currentdate = new Date();
+        var $start = getYears(currentdate) + "-" + getMonths(currentdate) + "-" + getDays(currentdate) + "%2005:44:00";
+        var $end = getYears(currentdate) + "-" + getMonths(currentdate) + "-" + getDays(currentdate) + "%20" + getHours(currentdate) + ":" + getMinutes(currentdate) + ":" + getSeconds(currentdate);
+        historyLastTimeUpdateView = getHours(currentdate) + ":" + getMinutes(currentdate) + " " + getDays(currentdate) + "." + getMonths(currentdate) + "." + getYears(currentdate);
 
-			}).fail(function(a, b, c) {
-				 console.log("error " + a + b + c + "   used Url:" + powerDetailsDownloaderUrlWithTime);
-			});
-		}).fail(function(a, b, c) {
-			console.log("error " + a + b + c + "     used Url: " + timeDownloaderUrl);
-		});
+        var powerDetailsDownloaderUrlWithTime = powerDetailsDownloaderUrl + "?start=" + $start + "&end=" + $end;
+        jQuery.getJSON(powerDetailsDownloaderUrlWithTime, function(json) {
+            if (Object.hasOwn(json, "error")) {
+                return;
+            }
+
+            lastSuccessfullPowerDetailsDownload = new Date().getTime();
+            //console.log("Number of calls PowerDetails: " + ++countPowerDetails);
+            timeUnitPowerDetails = json.powerDetails.timeUnit;
+            powerUnitPowerDetails = json.powerDetails.unit
+
+            for (const meter of json.powerDetails.meters) {
+                var metertype = meter.type.toLowerCase();
+                for (const value of meter.values) {
+                    if ((typeof value !== 'undefined' && value)
+                        && (typeof value.date !== 'undefined' && value.date)
+                        && (typeof value.value !== 'undefined')) {
+
+                            let time = value.date.substring(11, 16);
+                            let valueLocal = (!(value.value)) ? 0 : value.value;
+
+                            if (!(time in largeHistoryDataStructure)) {
+                                var lineValues = [];
+                                lineValues["production"] = 0;
+                                lineValues["consumption"] = 0;
+                                lineValues["purchased"] = 0;
+                                lineValues["selfconsumption"] = 0;
+                                lineValues["feedin"] = 0;
+                                largeHistoryDataStructure[time] = lineValues;
+                            }
+
+                            largeHistoryDataStructure[time][metertype] = valueLocal;
+                    }
+                }
+            }
+
+            // PV == Production: 36894.0
+            // Exportieren == FeedIn: 0.0
+            // Verbrauch == Load == Consumption: 49430.676
+            // Importieren == Purchased: 12536.675
+            // Verbraucht von PV == SelfConsumption: 36894.0
+
+            drawLargeHistory();
+
+        }).fail(function(a, b, c) {
+             console.log("error " + a + b + c + "   used Url:" + powerDetailsDownloaderUrlWithTime);
+        });
 	}
 
 	function currentPowerFlowDownloader() {
@@ -218,6 +225,12 @@
 		}
 		
 		jQuery.getJSON(currentPowerFlowDownloaderUrl, function(json) {
+            if (Object.hasOwn(json, "error")) {
+                return;
+            }
+
+            lastSuccessfulCurrentPowerFlowDownload  = new Date().getTime();
+
 			currentPowerUnit = json.siteCurrentPowerFlow.unit;
 			gridStatus = json.siteCurrentPowerFlow.GRID.status;
 			gridPowerGlobal = json.siteCurrentPowerFlow.GRID.currentPower;
@@ -237,19 +250,10 @@
 				}
 			}
 			
-			var currentdate = new Date(); 
-			timeStampCurrentPowerFlow =
-				  ((currentdate.getHours()     < 10) ? "0" : "") + currentdate.getHours()     + ":"  
-                + ((currentdate.getMinutes()   < 10) ? "0" : "") + currentdate.getMinutes()   + ":" 
-                + ((currentdate.getSeconds()   < 10) ? "0" : "") + currentdate.getSeconds()   + " "
-				+ ((currentdate.getDate()      < 10) ? "0" : "") + currentdate.getDate()      + "."
-				+ (((currentdate.getMonth()+1) < 10) ? "0" : "") + (currentdate.getMonth()+1) + "."
-				+ ((currentdate.getFullYear()  < 10) ? "0" : "") + currentdate.getFullYear();
+			var currentdate = new Date();
+            timeStampCurrentPowerFlow = getHours(currentdate) + ":" + getMinutes(currentdate) + ":" + getSeconds(currentdate) + " " + getDays(currentdate) + "." + getMonths(currentdate) + "." + getYears(currentdate);
 
-            let timeStampSmallHistory =
-                  ((currentdate.getHours()     < 10) ? "0" : "") + currentdate.getHours()     + ":"
-                + ((currentdate.getMinutes()   < 10) ? "0" : "") + currentdate.getMinutes()   + ":"
-                + ((currentdate.getSeconds()   < 10) ? "0" : "") + currentdate.getSeconds();
+            let timeStampSmallHistory = getHours(currentdate) + ":" + getMinutes(currentdate) + ":" + getSeconds(currentdate);
 
             var lineValues = [];
             lineValues["gridPower"] = gridPowerGlobal;
@@ -272,7 +276,7 @@
 		});
 
         let currentdate = new Date();
-        jQuery("#Uhrzeit").html(((currentdate.getHours()     < 10) ? "0" : "") + currentdate.getHours() + ":" + ((currentdate.getMinutes()   < 10) ? "0" : "") + currentdate.getMinutes());
+        jQuery("#Uhrzeit").html(getHours(currentdate) + ":" + getMinutes(currentdate));
 	}
 	
 	function drawCurrrentViews() {
@@ -593,6 +597,30 @@
 		
 		return valid;
 	}
+
+    function getYears(date) {
+        return date.getFullYear();
+    }
+
+    function getMonths(date) {
+        return (((date.getMonth()+1) < 10) ? "0" : "") + (date.getMonth()+1);
+    }
+
+    function getDays(date) {
+        return ((date.getDate() < 10) ? "0" : "") + date.getDate();
+    }
+
+    function getHours(date) {
+        return ((date.getHours() < 10) ? "0" : "") + date.getHours();
+    }
+
+    function getMinutes(date) {
+        return ((date.getMinutes() < 10) ? "0" : "") + date.getMinutes();
+    }
+
+    function getSeconds(date) {
+        return ((date.getSeconds() < 10) ? "0" : "") + date.getSeconds();
+    }
 	
 </script>
 

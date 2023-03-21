@@ -131,7 +131,7 @@
     var lastSuccessfulCurrentPowerFlowDownload = new Date().getTime();
 	
 	currentPowerFlowDownloader();
-	setInterval(currentPowerFlowDownloader, 8000);
+	setInterval(currentPowerFlowDownloader, 11000);
 
 	powerDetailsDownloader();
 	setInterval(powerDetailsDownloader, 1000 * 60 * 20); // 15 Minuten

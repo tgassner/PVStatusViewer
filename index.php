@@ -49,8 +49,9 @@
 		</td>
 		<td style="width:50%;height:50%;border: 1px solid #000" colspan="2">
             <div style="margin-bottom: 50px">
-                <div style="text-align: center;font-family:khand, Helvetica, Arial, sans-serif; font-size: 20px; font-weight: bold;">Verarbeitung</div>
+                <div style="text-align: center;font-family:khand, Helvetica, Arial, sans-serif; font-size: 20px; font-weight: bold;">Umgebungsdaten</div>
                 <div id="TempFeuchtVerarbeitung" style="text-align: center;font-family:khand, Helvetica, Arial, sans-serif; font-size: 20px; font-weight: normal; "></div>
+                <div id="TempZuschnitt" style="text-align: center;font-family:khand, Helvetica, Arial, sans-serif; font-size: 20px; font-weight: normal; "></div>
             </div>
             <div id="Uhrzeit" style="text-align: center;font-family:khand, Helvetica, Arial, sans-serif; font-size: 200px; font-weight: bolder;line-height:100px; margin-bottom: 40px"></div>
 			<div style="padding-left:10px; padding-right:10px;font-family:khand, Helvetica, Arial, sans-serif;">
@@ -106,6 +107,7 @@
 	const powerDetailsDownloaderUrl = "powerDetailsDownloader.php";
 	const timeDownloaderUrl = "timeDownloader.php";
     const verarbeitungTempFeuchtDownloaderUrl = "tempFeuchtDownloaderVerarbeitung.php"
+    const zuschnittTempDownloaderUrl = "tempDownloaderZuschnitt.php"
 
 	var currentPowerUnit;
 	var gridStatus;
@@ -287,9 +289,23 @@
 
             let temp = json.tmp;
             let feucht = json.feucht;
-            jQuery("#TempFeuchtVerarbeitung").html("Temperatur: " + temp + "°C" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rel. Luftfeuchtigkeit: " + feucht + "%");
+            jQuery("#TempFeuchtVerarbeitung").html("Verarbeitung: Temperatur: " + temp + "°C" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rel. Luftfeuchtigkeit: " + feucht + "%");
         }).fail(function(a, b, c) {
             console.log("error " + a + b + c + "    used Url: " + verarbeitungTempFeuchtDownloaderUrl);
+        });
+
+        jQuery.getJSON(zuschnittTempDownloaderUrl, function(json) {
+            if (Object.hasOwn(json, "error")) {
+                return;
+            }
+
+            let tempMitte = json.tmpMitte;
+            let tempDecke = json.tmpDecke;
+            let tempKino = json.tmpKino;
+            let tempAussen = json.tmpAussen;
+            jQuery("#TempZuschnitt").html("Zuschnitt: Temperatur Mitte = " + tempMitte + "°C&nbsp;&nbsp;&nbsp;&nbsp;Decke = " + tempDecke + "°C&nbsp;&nbsp;&nbsp;&nbsp;Kino = " + tempKino + "°C&nbsp;&nbsp;&nbsp;&nbsp;Aussen = " + tempAussen + "°C   ");
+        }).fail(function(a, b, c) {
+            console.log("error " + a + b + c + "    used Url: " + zuschnittTempDownloaderUrl);
         });
 
         let currentdate = new Date();

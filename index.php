@@ -50,27 +50,27 @@
 		<td style="width:50%;height:50%;border: 1px solid #000" colspan="2">
             <div style="margin-bottom: 50px">
                 <div style="text-align: center;font-family:khand, Helvetica, Arial, sans-serif; font-size: 20px; font-weight: bold;">Umgebungsdaten</div>
-                <div id="TempFeuchtVerarbeitung" style="text-align: center;font-family:khand, Helvetica, Arial, sans-serif; font-size: 20px; font-weight: normal; "></div>
-                <div id="TempZuschnitt" style="text-align: center;font-family:khand, Helvetica, Arial, sans-serif; font-size: 20px; font-weight: normal; "></div>
+                <div id="TempFeuchtVerarbeitung" style="text-align: left; padding-left: 40px; font-family:khand, Helvetica, Arial, sans-serif; font-size: 20px; font-weight: normal; "></div>
+                <div id="TempZuschnitt" style="text-align: left; padding-left: 40px; font-family:khand, Helvetica, Arial, sans-serif; font-size: 20px; font-weight: normal; "></div>
             </div>
             <div id="Uhrzeit" style="text-align: center;font-family:khand, Helvetica, Arial, sans-serif; font-size: 200px; font-weight: bolder;line-height:100px; margin-bottom: 40px"></div>
 			<div style="padding-left:10px; padding-right:10px;font-family:khand, Helvetica, Arial, sans-serif;">
 				<table style="width:100%;height:100%;">
 					<tr>
 						<td style="width:25%;height:20%;text-align: center; padding-top:30px;">
-							<div id="pvValueDiv" style="font-size: 35px; font-weight: bold;line-height:5px"></div>
+							<div id="pvValueDiv" style="font-size: 30px; font-weight: bold;line-height:5px"></div>
 						</td>
 						<td style="width:12.5%;height:20%;text-align: center">
 							
 						</td>
 						<td style="width:25%;height:20%;text-align: center; padding-top:30px">
-							<div id="loadValueDiv" style="font-size: 35px; font-weight: bold; line-height:5px"></div>
+							<div id="loadValueDiv" style="font-size: 30px; font-weight: bold; line-height:5px"></div>
 						</td>
 						<td style="width:12.5%;height:20%;text-align: center">
 							
 						</td>
 						<td style="width:25%;height:20%;text-align: center; padding-top:30px">
-							<div id="gridValueDiv" style="font-size: 35px; font-weight: bold;line-height:5px"></div>
+							<div id="gridValueDiv" style="font-size: 30px; font-weight: bold;line-height:5px"></div>
 						</td>
 					</tr>
 					
@@ -303,7 +303,7 @@
             let tempDecke = json.tmpDecke;
             let tempKino = json.tmpKino;
             let tempAussen = json.tmpAussen;
-            jQuery("#TempZuschnitt").html("Zuschnitt: Temperatur Mitte = " + tempMitte + "°C&nbsp;&nbsp;&nbsp;&nbsp;Decke = " + tempDecke + "°C&nbsp;&nbsp;&nbsp;&nbsp;Kino = " + tempKino + "°C&nbsp;&nbsp;&nbsp;&nbsp;Aussen = " + tempAussen + "°C   ");
+            jQuery("#TempZuschnitt").html("Zuschnitt: Temperatur Mitte = " + tempMitte + "°C&nbsp;&nbsp;&nbsp;&nbsp;Decke = " + tempDecke + "°C<br>Kino = " + tempKino + "°C<br>Aussen = " + tempAussen + "°C   ");
         }).fail(function(a, b, c) {
             console.log("error " + a + b + c + "    used Url: " + zuschnittTempDownloaderUrl);
         });

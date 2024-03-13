@@ -33,9 +33,17 @@
 		</td>
 		<td style="width:20%;height:40%;border: 1px solid #000;text-align: center;">
 			<div style="height:8%;"><img src="img/td_sz.svg" style="height:100%;width:100%"></div>
-			<div style="height:25%"><img src="img/token_gelb.svg" style="width:140px"></div>
-			<div style="height:20%;font-size: 35px; font-weight: bold; padding-top:30px;padding-bottom:20px;center; font-family:khand, Helvetica, Arial, sans-serif; "> Stromverbrauchs<br>Übersicht </div>
-			<div style="height:11%"><img src="img/PLEXIGLAS-in-jeder-Form.svg" style="height:100%;width:30%"></div>
+			<div style="height:80px"><img src="img/token_gelb.svg" style="height:100%;width:25% "></div>
+			<!-- <div style="height:11%"><img src="img/PLEXIGLAS-in-jeder-Form.svg" style="height:100%;width:30%"></div> -->
+
+            <div style="margin-bottom: 10px">
+                <div style="text-align: center;font-family:khand, Helvetica, Arial, sans-serif; font-size: 20px; font-weight: bold;">Umgebungsdaten</div>
+                <div id="TempFeuchtVerarbeitung" style="text-align: left; padding-left: 10px; font-family:khand, Helvetica, Arial, sans-serif; font-size: 20px; font-weight: normal; "></div>
+                <div id="TempZuschnitt" style="text-align: left; padding-left: 10px; font-family:khand, Helvetica, Arial, sans-serif; font-size: 20px; font-weight: normal; "></div>
+                <div id="TempFeuchtHalleDurchgang" style="text-align: left; padding-left: 10px; font-family:khand, Helvetica, Arial, sans-serif; font-size: 20px; font-weight: normal; "></div>
+                <div id="TempHalleLaserKleberaum" style="text-align: left; padding-left: 10px; font-family:khand, Helvetica, Arial, sans-serif; font-size: 20px; font-weight: normal; "></div>
+            </div>
+
 			<div style="height:1%" id="lastrefresh"></div>
 		</td>
 	</tr>
@@ -48,11 +56,6 @@
 			</div>
 		</td>
 		<td style="width:50%;height:50%;border: 1px solid #000" colspan="2">
-            <div style="margin-bottom: 50px">
-                <div style="text-align: center;font-family:khand, Helvetica, Arial, sans-serif; font-size: 20px; font-weight: bold;">Umgebungsdaten</div>
-                <div id="TempFeuchtVerarbeitung" style="text-align: left; padding-left: 40px; font-family:khand, Helvetica, Arial, sans-serif; font-size: 20px; font-weight: normal; "></div>
-                <div id="TempZuschnitt" style="text-align: left; padding-left: 40px; font-family:khand, Helvetica, Arial, sans-serif; font-size: 20px; font-weight: normal; "></div>
-            </div>
             <div id="Uhrzeit" style="text-align: center;font-family:khand, Helvetica, Arial, sans-serif; font-size: 200px; font-weight: bolder;line-height:100px; margin-bottom: 40px"></div>
 			<div style="padding-left:10px; padding-right:10px;font-family:khand, Helvetica, Arial, sans-serif;">
 				<table style="width:100%;height:100%;">
@@ -108,6 +111,8 @@
 	const timeDownloaderUrl = "timeDownloader.php";
     const verarbeitungTempFeuchtDownloaderUrl = "tempFeuchtDownloaderVerarbeitung.php"
     const zuschnittTempDownloaderUrl = "tempDownloaderZuschnitt.php"
+    const halleDurchgangTempFeuchtDownloaderUrl = "tempFeuchtDownloaderHalleDurchgang.php"
+    const halleLaserKleberaumTempDownloaderUrl = "tempDownloaderHalleLaserKleberaum.php"
 
 	var currentPowerUnit;
 	var gridStatus;
@@ -303,7 +308,33 @@
             let tempDecke = json.tmpDecke;
             let tempKino = json.tmpKino;
             let tempAussen = json.tmpAussen;
-            jQuery("#TempZuschnitt").html("Zuschnitt: Temperatur Mitte = " + tempMitte + "°C&nbsp;&nbsp;&nbsp;&nbsp;Decke = " + tempDecke + "°C<br>Kino = " + tempKino + "°C<br>Aussen = " + tempAussen + "°C   ");
+            jQuery("#TempZuschnitt").html("Zuschnitt: Temperatur Mitte = " + tempMitte + "°C&nbsp;&nbsp;&nbsp;&nbsp;Decke = " + tempDecke + "°C<br>Temperatur Kino = " + tempKino + "°C<br>Temperatur Aussen = " + tempAussen + "°C   ");
+        }).fail(function(a, b, c) {
+            console.log("error " + a + b + c + "    used Url: " + zuschnittTempDownloaderUrl);
+        });
+
+
+        jQuery.getJSON(halleDurchgangTempFeuchtDownloaderUrl, function(json) {
+            if (Object.hasOwn(json, "error")) {
+                return;
+            }
+
+            let temp = json.tmp;
+            let feucht = json.feucht;
+            jQuery("#TempFeuchtHalleDurchgang").html("Halle Rolltor: Temperatur: " + temp + "°C" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rel. Luftfeuchtigkeit: " + feucht + "%");
+        }).fail(function(a, b, c) {
+            console.log("error " + a + b + c + "    used Url: " + verarbeitungTempFeuchtDownloaderUrl);
+        });
+
+        jQuery.getJSON(halleLaserKleberaumTempDownloaderUrl, function(json) {
+            if (Object.hasOwn(json, "error")) {
+                return;
+            }
+
+            let tmpHalleLaser = json.tmpHalleLaser;
+            let tmpKleberaum = json.tmpKleberaum;
+            let tmpHalleDecke = json.tmpHalleDecke;
+            jQuery("#TempHalleLaserKleberaum").html("Halle Laser Temperatur = " + tmpHalleLaser + "°C<br>Halle Laser Decke = " + tmpHalleDecke + "°C<br>Kleberaum = " + tmpKleberaum + "°C");
         }).fail(function(a, b, c) {
             console.log("error " + a + b + c + "    used Url: " + zuschnittTempDownloaderUrl);
         });

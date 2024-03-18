@@ -32,16 +32,70 @@
 			</div>
 		</td>
 		<td style="width:20%;height:40%;border: 1px solid #000;text-align: center;">
-			<div style="height:8%;"><img src="img/td_sz.svg" style="height:100%;width:100%"></div>
-			<div style="height:80px"><img src="img/token_gelb.svg" style="height:100%;width:25% "></div>
+			<div style="height:8%;"><img src="img/td_sz.svg" style="height:80%;width:80%"></div>
+			<div style="height:80px"><img src="img/token_gelb.svg" style="height:100%;width:20% "></div>
 			<!-- <div style="height:11%"><img src="img/PLEXIGLAS-in-jeder-Form.svg" style="height:100%;width:30%"></div> -->
 
             <div style="margin-bottom: 10px">
-                <div style="text-align: center;font-family:khand, Helvetica, Arial, sans-serif; font-size: 20px; font-weight: bold;">Umgebungsdaten</div>
+                <!-- <div style="text-align: center;font-family:khand, Helvetica, Arial, sans-serif; font-size: 20px; font-weight: bold;">Umgebungsdaten</div> -->
+                <table style="margin: 20px auto;  border-collapse: collapse; font-family:khand, Helvetica, Arial, sans-serif; font-size: 18px; font-weight: bold;">
+                    <tr style="border-bottom: 1px solid gray;">
+                        <th style="border-right: 1px solid gray; padding-right: 10px"></th>
+                        <th style="padding-left: 10px;border-right: 1px solid gray; padding-right: 10px">°C</th>
+                        <th style="padding-left: 10px;">% rF </th>
+                    </tr>
+                    <tr>
+                        <td style="border-right: 1px solid gray;; padding-right: 10px">Verarbeitung</td>
+                        <td id="tdVerarbeitungGrad" style="padding-left: 10px; border-right: 1px solid gray;;border-right: 1px solid gray; padding-right: 10px""></td>
+                        <td id="tdVerarbeitungProzent" style="padding-left: 20px; "></td>
+                    </tr>
+                    <tr>
+                        <td style="border-right: 1px solid gray;; padding-right: 10px">Zuschnitt Mitte</td>
+                        <td id="tdZuschnittMitteGrad" style="padding-left: 10px; ;border-right: 1px solid gray; padding-right: 10px""></td>
+                        <td style="padding-left: 20px; "></td>
+                    </tr>
+                    <tr>
+                        <td style="border-right: 1px solid gray;; padding-right: 10px">Zuschnitt Decke</td>
+                        <td id="tdZuschnittDeckeGrad" style="padding-left: 10px; ;border-right: 1px solid gray; padding-right: 10px""></td>
+                        <td style="padding-left: 20px; "></td>
+                    </tr>
+                    <tr>
+                        <td style="border-right: 1px solid gray;; padding-right: 10px">Kino</td>
+                        <td id="tdKinoGrad" style="padding-left: 10px; ;border-right: 1px solid gray; padding-right: 10px""></td>
+                        <td style="padding-left: 20px; "></td>
+                    </tr>
+                    <tr>
+                        <td style="border-right: 1px solid gray;; padding-right: 10px">Draußen</td>
+                        <td id="tdDrauszenGrad" style="padding-left: 10px; ;border-right: 1px solid gray; padding-right: 10px""></td>
+                        <td style="padding-left: 20px; "></td>
+                    </tr>
+                    <tr>
+                        <td style="border-right: 1px solid gray;; padding-right: 10px">Halle Rolltor</td>
+                        <td id="tdHalleRolltorGrad" style="padding-left: 10px; ;border-right: 1px solid gray; padding-right: 10px""></td>
+                        <td id="tdHalleRolltorProzent" style="padding-left: 20px; "></td>
+                    </tr>
+                    <tr>
+                        <td style="border-right: 1px solid gray;; padding-right: 10px">Halle Laser</td>
+                        <td id="tdHalleLaserGrad" style="padding-left: 10px; ;border-right: 1px solid gray; padding-right: 10px""></td>
+                        <td style="padding-left: 20px; "></td>
+                    </tr>
+                    <tr>
+                        <td style="border-right: 1px solid gray;; padding-right: 10px">Halle Laser Decke</td>
+                        <td id="tdHalleLaserDeckeGrad" style="padding-left: 10px; ;border-right: 1px solid gray; padding-right: 10px""></td>
+                        <td style="padding-left: 20px; "></td>
+                    </tr>
+                    <tr>
+                        <td style="border-right: 1px solid gray;; padding-right: 10px">Kleberaum</td>
+                        <td id="tdKleberaum" style="padding-left: 10px; ;border-right: 1px solid gray; padding-right: 10px""></td>
+                        <td style="padding-left: 20px; "></td>
+                    </tr>
+                </table>
+                <!--
                 <div id="TempFeuchtVerarbeitung" style="text-align: left; padding-left: 10px; font-family:khand, Helvetica, Arial, sans-serif; font-size: 20px; font-weight: normal; "></div>
                 <div id="TempZuschnitt" style="text-align: left; padding-left: 10px; font-family:khand, Helvetica, Arial, sans-serif; font-size: 20px; font-weight: normal; "></div>
                 <div id="TempFeuchtHalleDurchgang" style="text-align: left; padding-left: 10px; font-family:khand, Helvetica, Arial, sans-serif; font-size: 20px; font-weight: normal; "></div>
                 <div id="TempHalleLaserKleberaum" style="text-align: left; padding-left: 10px; font-family:khand, Helvetica, Arial, sans-serif; font-size: 20px; font-weight: normal; "></div>
+                -->
             </div>
 
 			<div style="height:1%" id="lastrefresh"></div>
@@ -294,7 +348,11 @@
 
             let temp = json.tmp;
             let feucht = json.feucht;
-            jQuery("#TempFeuchtVerarbeitung").html("Verarbeitung: Temperatur: " + temp + "°C" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rel. Luftfeuchtigkeit: " + feucht + "%");
+
+            jQuery("#tdVerarbeitungGrad").html(temp);
+            jQuery("#tdVerarbeitungProzent").html(feucht);
+
+            //jQuery("#TempFeuchtVerarbeitung").html("Verarbeitung: Temperatur: " + temp + "°C" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rel. Luftfeuchtigkeit: " + feucht + "%");
         }).fail(function(a, b, c) {
             console.log("error " + a + b + c + "    used Url: " + verarbeitungTempFeuchtDownloaderUrl);
         });
@@ -308,7 +366,15 @@
             let tempDecke = json.tmpDecke;
             let tempKino = json.tmpKino;
             let tempAussen = json.tmpAussen;
-            jQuery("#TempZuschnitt").html("Zuschnitt: Temperatur Mitte = " + tempMitte + "°C&nbsp;&nbsp;&nbsp;&nbsp;Decke = " + tempDecke + "°C<br>Temperatur Kino = " + tempKino + "°C<br>Temperatur Aussen = " + tempAussen + "°C   ");
+
+
+            jQuery("#tdZuschnittMitteGrad").html(tempMitte);
+            jQuery("#tdZuschnittDeckeGrad").html(tempDecke);
+            jQuery("#tdKinoGrad").html(tempKino);
+            jQuery("#tdDrauszenGrad").html(tempAussen);
+
+
+            //jQuery("#TempZuschnitt").html("Zuschnitt: Temperatur Mitte = " + tempMitte + "°C&nbsp;&nbsp;&nbsp;&nbsp;Decke = " + tempDecke + "°C<br>Temperatur Kino = " + tempKino + "°C<br>Temperatur Aussen = " + tempAussen + "°C   ");
         }).fail(function(a, b, c) {
             console.log("error " + a + b + c + "    used Url: " + zuschnittTempDownloaderUrl);
         });
@@ -321,7 +387,11 @@
 
             let temp = json.tmp;
             let feucht = json.feucht;
-            jQuery("#TempFeuchtHalleDurchgang").html("Halle Rolltor: Temperatur: " + temp + "°C" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rel. Luftfeuchtigkeit: " + feucht + "%");
+
+            jQuery("#tdHalleRolltorGrad").html(temp);
+            jQuery("#tdHalleRolltorProzent").html(feucht);
+
+            //jQuery("#TempFeuchtHalleDurchgang").html("Halle Rolltor: Temperatur: " + temp + "°C" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rel. Luftfeuchtigkeit: " + feucht + "%");
         }).fail(function(a, b, c) {
             console.log("error " + a + b + c + "    used Url: " + verarbeitungTempFeuchtDownloaderUrl);
         });
@@ -334,7 +404,12 @@
             let tmpHalleLaser = json.tmpHalleLaser;
             let tmpKleberaum = json.tmpKleberaum;
             let tmpHalleDecke = json.tmpHalleDecke;
-            jQuery("#TempHalleLaserKleberaum").html("Halle Laser Temperatur = " + tmpHalleLaser + "°C<br>Halle Laser Decke = " + tmpHalleDecke + "°C<br>Kleberaum = " + tmpKleberaum + "°C");
+
+            jQuery("#tdHalleLaserGrad").html(tmpHalleLaser);
+            jQuery("#tdHalleLaserDeckeGrad").html(tmpHalleDecke);
+            jQuery("#tdKleberaum").html(tmpKleberaum);
+
+            //jQuery("#TempHalleLaserKleberaum").html("Halle Laser Temperatur = " + tmpHalleLaser + "°C<br>Halle Laser Decke = " + tmpHalleDecke + "°C<br>Kleberaum = " + tmpKleberaum + "°C");
         }).fail(function(a, b, c) {
             console.log("error " + a + b + c + "    used Url: " + zuschnittTempDownloaderUrl);
         });

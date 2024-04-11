@@ -5,7 +5,7 @@
 <script src="js/chart.min.js"></script>
 <link rel="icon" href="favicon.ico" type="image/x-icon">
 </head>
-<body>
+<table>
 
 <div id="nachtPauseDiv" style="width: 100%;height: 100%;position: absolute;top: 0;left: 0;background: #666666;font-size: 100px; font-weight: bold;margin:auto;text-align: center;padding-top:10%">
 	Nachtpause
@@ -14,82 +14,92 @@
 
 <table style="height:100%; width:100%;table-layout: fixed;">
 	<tr style="height:45%">
-		<td style="width:20%;height:40%;border: 1px solid #000" colspan="1">
+		<td style="width:15%;height:40%;border: 1px solid #000" colspan="1">
             <div id="OverviewBarInfoDiv" style="text-align: center; font-family:khand, Helvetica, Arial, sans-serif; color: rgb(0,150,190); font-size: 28px"></div>
             <div style="height:80%">
 			  <canvas id="chartBarCanvas"></canvas>
 			</div>
 		</td>
-        <td style="width:17%;height:40%;border: 1px solid #000;" colspan="1">
+        <td style="width:12%;height:40%;border: 1px solid #000;" colspan="1">
             <div style="height:90%">
                 <canvas id="chartPieCanvas"></canvas>
             </div>
         </td>
-		<td style="width:43%;height:40%;border: 1px solid #000;" colspan="3">
+		<td style="width:33%;height:40%;border: 1px solid #000;" colspan="3">
             <div id="smallHistoryInfoDiv" style="text-align: center; font-family:khand, Helvetica, Arial, sans-serif; color: rgb(0,150,190); font-size: 28px"></div>
             <div style="height:95%">
 			  <canvas id="chartSmallHistoryCanvas"></canvas>
 			</div>
 		</td>
-		<td style="width:20%;height:40%;border: 1px solid #000;text-align: center;">
+		<td style="width:40%;height:40%;border: 1px solid #000;text-align: center;">
 			<div style="height:8%;"><img src="img/td_sz.svg" style="height:80%;width:80%"></div>
 			<div style="height:80px"><img src="img/token_gelb.svg" style="height:100%;width:20% "></div>
 			<!-- <div style="height:11%"><img src="img/PLEXIGLAS-in-jeder-Form.svg" style="height:100%;width:30%"></div> -->
 
             <div style="margin-bottom: 10px">
                 <!-- <div style="text-align: center;font-family:khand, Helvetica, Arial, sans-serif; font-size: 20px; font-weight: bold;">Umgebungsdaten</div> -->
-                <table style="margin: 20px auto;  border-collapse: collapse; font-family:khand, Helvetica, Arial, sans-serif; font-size: 18px; font-weight: bold;">
-                    <tr style="border-bottom: 1px solid gray;">
-                        <th style="border-right: 1px solid gray; padding-right: 10px"></th>
-                        <th style="padding-left: 10px;border-right: 1px solid gray; padding-right: 10px">°C</th>
-                        <th style="padding-left: 10px;">% rF </th>
-                    </tr>
+                <table>
                     <tr>
-                        <td style="border-right: 1px solid gray;; padding-right: 10px">Verarbeitung</td>
-                        <td id="tdVerarbeitungGrad" style="padding-left: 10px; border-right: 1px solid gray;;border-right: 1px solid gray; padding-right: 10px""></td>
-                        <td id="tdVerarbeitungProzent" style="padding-left: 20px; "></td>
-                    </tr>
-                    <tr>
-                        <td style="border-right: 1px solid gray;; padding-right: 10px">Zuschnitt Mitte</td>
-                        <td id="tdZuschnittMitteGrad" style="padding-left: 10px; ;border-right: 1px solid gray; padding-right: 10px""></td>
-                        <td style="padding-left: 20px; "></td>
-                    </tr>
-                    <tr>
-                        <td style="border-right: 1px solid gray;; padding-right: 10px">Zuschnitt Decke</td>
-                        <td id="tdZuschnittDeckeGrad" style="padding-left: 10px; ;border-right: 1px solid gray; padding-right: 10px""></td>
-                        <td style="padding-left: 20px; "></td>
-                    </tr>
-                    <tr>
-                        <td style="border-right: 1px solid gray;; padding-right: 10px">Kino</td>
-                        <td id="tdKinoGrad" style="padding-left: 10px; ;border-right: 1px solid gray; padding-right: 10px""></td>
-                        <td style="padding-left: 20px; "></td>
-                    </tr>
-                    <tr>
-                        <td style="border-right: 1px solid gray;; padding-right: 10px">Draußen</td>
-                        <td id="tdDrauszenGrad" style="padding-left: 10px; ;border-right: 1px solid gray; padding-right: 10px""></td>
-                        <td style="padding-left: 20px; "></td>
-                    </tr>
-                    <tr>
-                        <td style="border-right: 1px solid gray;; padding-right: 10px">Halle Rolltor</td>
-                        <td id="tdHalleRolltorGrad" style="padding-left: 10px; ;border-right: 1px solid gray; padding-right: 10px""></td>
-                        <td id="tdHalleRolltorProzent" style="padding-left: 20px; "></td>
-                    </tr>
-                    <tr>
-                        <td style="border-right: 1px solid gray;; padding-right: 10px">Halle Laser</td>
-                        <td id="tdHalleLaserGrad" style="padding-left: 10px; ;border-right: 1px solid gray; padding-right: 10px""></td>
-                        <td style="padding-left: 20px; "></td>
-                    </tr>
-                    <tr>
-                        <td style="border-right: 1px solid gray;; padding-right: 10px">Halle Laser Decke</td>
-                        <td id="tdHalleLaserDeckeGrad" style="padding-left: 10px; ;border-right: 1px solid gray; padding-right: 10px""></td>
-                        <td style="padding-left: 20px; "></td>
-                    </tr>
-                    <tr>
-                        <td style="border-right: 1px solid gray;; padding-right: 10px">Kleberaum</td>
-                        <td id="tdKleberaum" style="padding-left: 10px; ;border-right: 1px solid gray; padding-right: 10px""></td>
-                        <td style="padding-left: 20px; "></td>
+                        <td>
+                            <div id="homeAssistantStatusFenster"> </div>
+                        </td>
+                        <td>
+                            <table style="margin: 20px auto;  border-collapse: collapse; font-family:khand, Helvetica, Arial, sans-serif; font-size: 18px; font-weight: bold;">
+                                <tr style="border-bottom: 1px solid gray;">
+                                    <th style="border-right: 1px solid gray; padding-right: 10px"></th>
+                                    <th style="padding-left: 10px;border-right: 1px solid gray; padding-right: 10px">°C</th>
+                                    <th style="padding-left: 10px;">% rF </th>
+                                </tr>
+                                <tr>
+                                    <td style="border-right: 1px solid gray;; padding-right: 10px">Verarbeitung</td>
+                                    <td id="tdVerarbeitungGrad" style="padding-left: 10px; border-right: 1px solid gray;;border-right: 1px solid gray; padding-right: 10px""></td>
+                                    <td id="tdVerarbeitungProzent" style="padding-left: 20px; "></td>
+                                </tr>
+                                <tr>
+                                    <td style="border-right: 1px solid gray;; padding-right: 10px">Zuschnitt Mitte</td>
+                                    <td id="tdZuschnittMitteGrad" style="padding-left: 10px; ;border-right: 1px solid gray; padding-right: 10px""></td>
+                                    <td style="padding-left: 20px; "></td>
+                                </tr>
+                                <tr>
+                                    <td style="border-right: 1px solid gray;; padding-right: 10px">Zuschnitt Decke</td>
+                                    <td id="tdZuschnittDeckeGrad" style="padding-left: 10px; ;border-right: 1px solid gray; padding-right: 10px""></td>
+                                    <td style="padding-left: 20px; "></td>
+                                </tr>
+                                <tr>
+                                    <td style="border-right: 1px solid gray;; padding-right: 10px">Kino</td>
+                                    <td id="tdKinoGrad" style="padding-left: 10px; ;border-right: 1px solid gray; padding-right: 10px""></td>
+                                    <td style="padding-left: 20px; "></td>
+                                </tr>
+                                <tr>
+                                    <td style="border-right: 1px solid gray;; padding-right: 10px">Draußen</td>
+                                    <td id="tdDrauszenGrad" style="padding-left: 10px; ;border-right: 1px solid gray; padding-right: 10px""></td>
+                                    <td style="padding-left: 20px; "></td>
+                                </tr>
+                                <tr>
+                                    <td style="border-right: 1px solid gray;; padding-right: 10px">Halle Rolltor</td>
+                                    <td id="tdHalleRolltorGrad" style="padding-left: 10px; ;border-right: 1px solid gray; padding-right: 10px""></td>
+                                    <td id="tdHalleRolltorProzent" style="padding-left: 20px; "></td>
+                                </tr>
+                                <tr>
+                                    <td style="border-right: 1px solid gray;; padding-right: 10px">Halle Laser</td>
+                                    <td id="tdHalleLaserGrad" style="padding-left: 10px; ;border-right: 1px solid gray; padding-right: 10px""></td>
+                                    <td style="padding-left: 20px; "></td>
+                                </tr>
+                                <tr>
+                                    <td style="border-right: 1px solid gray;; padding-right: 10px">Halle Laser Decke</td>
+                                    <td id="tdHalleLaserDeckeGrad" style="padding-left: 10px; ;border-right: 1px solid gray; padding-right: 10px""></td>
+                                    <td style="padding-left: 20px; "></td>
+                                </tr>
+                                <tr>
+                                    <td style="border-right: 1px solid gray;; padding-right: 10px">Kleberaum</td>
+                                    <td id="tdKleberaum" style="padding-left: 10px; ;border-right: 1px solid gray; padding-right: 10px""></td>
+                                    <td style="padding-left: 20px; "></td>
+                                </tr>
+                            </table>
+                        </td>
                     </tr>
                 </table>
+
                 <!--
                 <div id="TempFeuchtVerarbeitung" style="text-align: left; padding-left: 10px; font-family:khand, Helvetica, Arial, sans-serif; font-size: 20px; font-weight: normal; "></div>
                 <div id="TempZuschnitt" style="text-align: left; padding-left: 10px; font-family:khand, Helvetica, Arial, sans-serif; font-size: 20px; font-weight: normal; "></div>
@@ -167,6 +177,7 @@
     const zuschnittTempDownloaderUrl = "tempDownloaderZuschnitt.php"
     const halleDurchgangTempFeuchtDownloaderUrl = "tempFeuchtDownloaderHalleDurchgang.php"
     const halleLaserKleberaumTempDownloaderUrl = "tempDownloaderHalleLaserKleberaum.php"
+    const homeAssistantStatusFensterDownloaderUrl = "homeAssistantStates.php";
 
 	var currentPowerUnit;
 	var gridStatus;
@@ -410,6 +421,43 @@
             jQuery("#tdKleberaum").html(tmpKleberaum);
 
             //jQuery("#TempHalleLaserKleberaum").html("Halle Laser Temperatur = " + tmpHalleLaser + "°C<br>Halle Laser Decke = " + tmpHalleDecke + "°C<br>Kleberaum = " + tmpKleberaum + "°C");
+        }).fail(function(a, b, c) {
+            console.log("error " + a + b + c + "    used Url: " + zuschnittTempDownloaderUrl);
+        });
+
+        jQuery.getJSON(homeAssistantStatusFensterDownloaderUrl, function(json) {
+            if (Object.hasOwn(json, "error")) {
+                return;
+            }
+
+            let html = "<table>";
+
+            html += "<tr>";
+            html += "<td>Fenster</td>";
+            html += "<td>Status</td>";
+            html += "<td>schließt automatisch in</td>";
+            html += "</tr>";
+
+            for (const shutterId in json) {
+                let shutter = json[shutterId];
+                let name = shutter["name"];
+                let state = shutter["state"];
+                let timerActive = shutter["timerActive"];
+                let timeToClose = shutter["timeToClose"];
+
+                html += "<tr>";
+                html += "<td>" + name + "</td>";
+                html += "<td>" + state + "</td>";
+                if (timerActive) {
+                    html += "<td>" + timeToClose + "</td>";
+                } else {
+                    html += "<td></td>";
+                }
+                html += "</tr>";
+            }
+            html += "</table>";
+
+            jQuery("#homeAssistantStatusFenster").html(html);
         }).fail(function(a, b, c) {
             console.log("error " + a + b + c + "    used Url: " + zuschnittTempDownloaderUrl);
         });

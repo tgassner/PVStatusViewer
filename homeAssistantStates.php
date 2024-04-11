@@ -46,6 +46,7 @@ foreach ($states as $state) {
             $shutter["entity_id"] = $entity_id;
             $shutter["state"] = $shutterStates[$statestate];
             $shutter["name"] = $friendly_name;
+            $shutter["timerActive"] = false;
             $shutters[$entity_id] = $shutter;
         }
     }

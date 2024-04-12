@@ -72,11 +72,15 @@ foreach ($states as $state) {
 }
 
 foreach ($timers as $timer_entity_id => $timer) {
-    $shutter_entity_id = $timerToShutter[$timer_entity_id];
-    $shutter = $shutters[$shutter_entity_id];
-    $shutter["timerActive"] = true;
-    $shutter["timeToClose"] = $timer["timeToClose"];
-    $shutters[$shutter_entity_id] = $shutter;
+    if (array_key_exists($timer_entity_id, $timerToShutter)) {
+        $shutter_entity_id = $timerToShutter[$timer_entity_id];
+        if (array_key_exists($shutter_entity_id, $shutters)) {
+            $shutter = $shutters[$shutter_entity_id];
+            $shutter["timerActive"] = true;
+            $shutter["timeToClose"] = $timer["timeToClose"];
+            $shutters[$shutter_entity_id] = $shutter;
+        }
+    }
 }
 
 //print_r($shutters);

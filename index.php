@@ -119,7 +119,8 @@
 			  <canvas id="chartLargeHistoryCanvas"></canvas>
 			</div>
 		</td>
-		<td style="width:50%;height:50%;border: 1px solid #000" colspan="2">
+		<td style="width:50%;height:50%;border: 1px solid #000;position: relative" colspan="2">
+            <div id="Datum" style="right: 20px; top:20px;font-family:khand, Helvetica, Arial, sans-serif; font-size: 30px; text-align: right;font-weight: bolder; position:absolute">aaaaaa</div>
             <div id="Uhrzeit" style="text-align: center;font-family:khand, Helvetica, Arial, sans-serif; font-size: 200px; font-weight: bolder;line-height:100px; margin-bottom: 40px"></div>
 			<div style="padding-left:10px; padding-right:10px;font-family:khand, Helvetica, Arial, sans-serif;">
 				<table style="width:100%;height:100%;">
@@ -463,7 +464,13 @@
         });
 
         let currentdate = new Date();
-        jQuery("#Uhrzeit").html(getHours(currentdate) + ":" + getMinutes(currentdate));
+        let zeit = getHours(currentdate) + ":" + getMinutes(currentdate);
+        let datum = getDays(currentdate) + "." + getMonths(currentdate) + "." +getYears(currentdate) + "<br>" +
+            getDays(currentdate) + "." + getMonthName(currentdate) + "." +getYears(currentdate);
+
+        jQuery("#Uhrzeit").html(zeit);
+        jQuery("#Datum").html(datum);
+
 	}
 	
 	function drawCurrrentViews() {
@@ -791,6 +798,10 @@
 
     function getMonths(date) {
         return (((date.getMonth()+1) < 10) ? "0" : "") + (date.getMonth()+1);
+    }
+
+    function getMonthName(date) {
+        return date.toLocaleString('default', { month: 'long' });
     }
 
     function getDays(date) {

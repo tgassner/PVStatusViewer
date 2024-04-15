@@ -38,54 +38,54 @@
 
             <div style="margin-bottom: 10px">
                 <!-- <div style="text-align: center;font-family:khand, Helvetica, Arial, sans-serif; font-size: 20px; font-weight: bold;">Umgebungsdaten</div> -->
-                <table>
+                <table style="margin-right: 10px;">
                     <tr>
                         <td style="vertical-align: top;">
                             <div id="homeAssistantStatusFenster"> </div>
                         </td>
                         <td style="vertical-align: top;">
-                            <table style="margin: 40px auto;  border-collapse: collapse; font-family:khand, Helvetica, Arial, sans-serif; font-size: 18px; font-weight: bold;">
-                                <tr style="border-bottom: 1px solid gray;">
-                                    <th style="border-right: 1px solid gray; padding-right: 10px"></th>
+                            <table style="margin: 21px auto;  border-collapse: collapse; font-family:khand, Helvetica, Arial, sans-serif; font-size: 18px; font-weight: bold;">
+                                <tr style="border-bottom: 2px solid black;">
+                                    <th style="border-right: 1px solid gray; padding-right: 10px; text-align: left">Sensor</th>
                                     <th style="padding-left: 10px;border-right: 1px solid gray; padding-right: 10px">°C</th>
                                     <th style="padding-left: 10px;">% rF </th>
                                 </tr>
-                                <tr>
+                                <tr style="border-bottom: 1px solid gray;">
                                     <td style="border-right: 1px solid gray;padding-right: 10px">Verarbeitung</td>
                                     <td id="tdVerarbeitungGrad" style="padding-left: 10px; border-right: 1px solid gray;;border-right: 1px solid gray; padding-right: 10px""></td>
                                     <td id="tdVerarbeitungProzent" style="padding-left: 20px; "></td>
                                 </tr>
-                                <tr>
+                                <tr style="border-bottom: 1px solid gray;">
                                     <td style="border-right: 1px solid gray;; padding-right: 10px">Zuschnitt Mitte</td>
                                     <td id="tdZuschnittMitteGrad" style="padding-left: 10px; ;border-right: 1px solid gray; padding-right: 10px""></td>
                                     <td style="padding-left: 20px; "></td>
                                 </tr>
-                                <tr>
+                                <tr style="border-bottom: 1px solid gray;">
                                     <td style="border-right: 1px solid gray;; padding-right: 10px">Zuschnitt Decke</td>
                                     <td id="tdZuschnittDeckeGrad" style="padding-left: 10px; ;border-right: 1px solid gray; padding-right: 10px""></td>
                                     <td style="padding-left: 20px; "></td>
                                 </tr>
-                                <tr>
+                                <tr style="border-bottom: 1px solid gray;">
                                     <td style="border-right: 1px solid gray;; padding-right: 10px">Kino</td>
                                     <td id="tdKinoGrad" style="padding-left: 10px; ;border-right: 1px solid gray; padding-right: 10px""></td>
                                     <td style="padding-left: 20px; "></td>
                                 </tr>
-                                <tr>
+                                <tr style="border-bottom: 1px solid gray;">
                                     <td style="border-right: 1px solid gray;; padding-right: 10px">Draußen</td>
                                     <td id="tdDrauszenGrad" style="padding-left: 10px; ;border-right: 1px solid gray; padding-right: 10px""></td>
                                     <td style="padding-left: 20px; "></td>
                                 </tr>
-                                <tr>
+                                <tr style="border-bottom: 1px solid gray;">
                                     <td style="border-right: 1px solid gray;; padding-right: 10px">Halle Rolltor</td>
                                     <td id="tdHalleRolltorGrad" style="padding-left: 10px; ;border-right: 1px solid gray; padding-right: 10px""></td>
                                     <td id="tdHalleRolltorProzent" style="padding-left: 20px; "></td>
                                 </tr>
-                                <tr>
+                                <tr style="border-bottom: 1px solid gray;">
                                     <td style="border-right: 1px solid gray;; padding-right: 10px">Halle Laser</td>
                                     <td id="tdHalleLaserGrad" style="padding-left: 10px; ;border-right: 1px solid gray; padding-right: 10px""></td>
                                     <td style="padding-left: 20px; "></td>
                                 </tr>
-                                <tr>
+                                <tr style="border-bottom: 1px solid gray;">
                                     <td style="border-right: 1px solid gray;; padding-right: 10px">Halle Laser Decke</td>
                                     <td id="tdHalleLaserDeckeGrad" style="padding-left: 10px; ;border-right: 1px solid gray; padding-right: 10px""></td>
                                     <td style="padding-left: 20px; "></td>
@@ -431,20 +431,25 @@
                 return;
             }
 
-            let html = "<table style='margin-right: 30px; margin-left: 30px; font-family:khand, Helvetica, Arial, sans-serif; font-size: 18px; font-weight: bold;border-collapse: collapse;'>";
-            html += "<tr style='margin-right=10px;border-bottom: 1px solid gray;'>";
-            html += "<td style='border-right: 1px solid gray;padding-right: 10px;'>Fenster</td>";
-            html += "<td style='border-right: 1px solid gray;padding-left: 10px;padding-right: 10px;'>Status</td>";
-            html += "<td style='padding-left: 10px;'>schließt auto-<br>matisch in</td>";
+            let html = "<table style='margin-right: 10px; margin-left: 10px; font-family:khand, Helvetica, Arial, sans-serif; font-size: 18px; font-weight: bold;border-collapse: collapse;'>";
+            html += "<tr style='margin-right=10px;border-bottom: 2px solid black;'>";
+            html += "<td style='border-right: 1px solid gray;padding-right: 10px;vertical-align: bottom'>Fenster</td>";
+            html += "<td style='border-right: 1px solid gray;padding-left: 10px;padding-right: 10px;;vertical-align: bottom'>Status</td>";
+            html += "<td style='padding-left: 10px;;vertical-align: bottom'>schließt auto-<br>matisch in</td>";
             html += "</tr>";
             for (const shutterId in json) {
                 let shutter = json[shutterId];
                 let name = shutter["name"];
+                nameParts = name.split(" ");
+                if (nameParts.length === 2) {
+                    name = "<span style='font-weight: normal'>" + nameParts[0] + "</span><br>" + nameParts[1];
+                }
+
                 let state = shutter["state"];
                 let timerActive = shutter["timerActive"];
                 let timeToClose = shutter["timeToClose"];
 
-                html += "<tr>";
+                html += "<tr style='border-top: 1px solid gray;'>";
                 html += "<td style='border-right: 1px solid gray;padding-right: 10px;'>" + name + "</td>";
                 html += "<td style='border-right: 1px solid gray;padding-left: 10px;padding-right: 10px;'>" + state + "</td>";
                 if (timerActive) {

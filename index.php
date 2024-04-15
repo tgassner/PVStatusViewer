@@ -44,7 +44,7 @@
                             <div id="homeAssistantStatusFenster"> </div>
                         </td>
                         <td style="vertical-align: top;">
-                            <table style="margin: 28px auto;  border-collapse: collapse; font-family:khand, Helvetica, Arial, sans-serif; font-size: 18px; font-weight: bold;">
+                            <table style="margin: 40px auto;  border-collapse: collapse; font-family:khand, Helvetica, Arial, sans-serif; font-size: 18px; font-weight: bold;">
                                 <tr style="border-bottom: 1px solid gray;">
                                     <th style="border-right: 1px solid gray; padding-right: 10px"></th>
                                     <th style="padding-left: 10px;border-right: 1px solid gray; padding-right: 10px">°C</th>
@@ -121,7 +121,7 @@
 		</td>
 		<td style="width:50%;height:50%;border: 1px solid #000;position: relative" colspan="2">
             <div id="Datum" style="right: 20px; top:20px;font-family:khand, Helvetica, Arial, sans-serif; font-size: 30px; text-align: right;font-weight: bolder; position:absolute">aaaaaa</div>
-            <div id="Uhrzeit" style="text-align: center;font-family:khand, Helvetica, Arial, sans-serif; font-size: 200px; font-weight: bolder; top: -60px; position: absolute;left: 0;right: 0;margin-left: auto;margin-right: auto;width: 409px;"></div>
+            <div id="Uhrzeit" style="text-align: center;font-family:khand, Helvetica, Arial, sans-serif; font-size: 240px; font-weight: bolder; top: -30px; position: absolute;left: 50px;"></div>
 			<div style="margin-top: 160px;padding-left:10px; padding-right:10px;font-family:khand, Helvetica, Arial, sans-serif;">
 				<table style="width:100%;height:100%;">
 					<tr>

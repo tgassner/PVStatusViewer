@@ -40,18 +40,18 @@
                 <!-- <div style="text-align: center;font-family:khand, Helvetica, Arial, sans-serif; font-size: 20px; font-weight: bold;">Umgebungsdaten</div> -->
                 <table>
                     <tr>
-                        <td>
+                        <td style="vertical-align: top;">
                             <div id="homeAssistantStatusFenster"> </div>
                         </td>
-                        <td>
-                            <table style="margin: 20px auto;  border-collapse: collapse; font-family:khand, Helvetica, Arial, sans-serif; font-size: 18px; font-weight: bold;">
+                        <td style="vertical-align: top;">
+                            <table style="margin: 28px auto;  border-collapse: collapse; font-family:khand, Helvetica, Arial, sans-serif; font-size: 18px; font-weight: bold;">
                                 <tr style="border-bottom: 1px solid gray;">
                                     <th style="border-right: 1px solid gray; padding-right: 10px"></th>
                                     <th style="padding-left: 10px;border-right: 1px solid gray; padding-right: 10px">°C</th>
                                     <th style="padding-left: 10px;">% rF </th>
                                 </tr>
                                 <tr>
-                                    <td style="border-right: 1px solid gray;; padding-right: 10px">Verarbeitung</td>
+                                    <td style="border-right: 1px solid gray;padding-right: 10px">Verarbeitung</td>
                                     <td id="tdVerarbeitungGrad" style="padding-left: 10px; border-right: 1px solid gray;;border-right: 1px solid gray; padding-right: 10px""></td>
                                     <td id="tdVerarbeitungProzent" style="padding-left: 20px; "></td>
                                 </tr>
@@ -121,8 +121,8 @@
 		</td>
 		<td style="width:50%;height:50%;border: 1px solid #000;position: relative" colspan="2">
             <div id="Datum" style="right: 20px; top:20px;font-family:khand, Helvetica, Arial, sans-serif; font-size: 30px; text-align: right;font-weight: bolder; position:absolute">aaaaaa</div>
-            <div id="Uhrzeit" style="text-align: center;font-family:khand, Helvetica, Arial, sans-serif; font-size: 200px; font-weight: bolder;line-height:100px; margin-bottom: 40px"></div>
-			<div style="padding-left:10px; padding-right:10px;font-family:khand, Helvetica, Arial, sans-serif;">
+            <div id="Uhrzeit" style="text-align: center;font-family:khand, Helvetica, Arial, sans-serif; font-size: 200px; font-weight: bolder; top: -60px; position: absolute;left: 0;right: 0;margin-left: auto;margin-right: auto;width: 409px;"></div>
+			<div style="margin-top: 160px;padding-left:10px; padding-right:10px;font-family:khand, Helvetica, Arial, sans-serif;">
 				<table style="width:100%;height:100%;">
 					<tr>
 						<td style="width:25%;height:20%;text-align: center; padding-top:30px;">
@@ -431,14 +431,12 @@
                 return;
             }
 
-            let html = "<table>";
-
-            html += "<tr>";
-            html += "<td>Fenster</td>";
-            html += "<td>Status</td>";
-            html += "<td>schließt automatisch in</td>";
+            let html = "<table style='margin-right: 30px; margin-left: 30px; font-family:khand, Helvetica, Arial, sans-serif; font-size: 18px; font-weight: bold;border-collapse: collapse;'>";
+            html += "<tr style='margin-right=10px;border-bottom: 1px solid gray;'>";
+            html += "<td style='border-right: 1px solid gray;padding-right: 10px;'>Fenster</td>";
+            html += "<td style='border-right: 1px solid gray;padding-left: 10px;padding-right: 10px;'>Status</td>";
+            html += "<td style='padding-left: 10px;'>schließt auto-<br>matisch in</td>";
             html += "</tr>";
-
             for (const shutterId in json) {
                 let shutter = json[shutterId];
                 let name = shutter["name"];
@@ -447,12 +445,12 @@
                 let timeToClose = shutter["timeToClose"];
 
                 html += "<tr>";
-                html += "<td>" + name + "</td>";
-                html += "<td>" + state + "</td>";
+                html += "<td style='border-right: 1px solid gray;padding-right: 10px;'>" + name + "</td>";
+                html += "<td style='border-right: 1px solid gray;padding-left: 10px;padding-right: 10px;'>" + state + "</td>";
                 if (timerActive) {
-                    html += "<td>" + timeToClose + "</td>";
+                    html += "<td style='padding-left: 10px;'>" + timeToClose + "</td>";
                 } else {
-                    html += "<td></td>";
+                    html += "<td style='padding-left: 10px;'></td>";
                 }
                 html += "</tr>";
             }

@@ -43,61 +43,61 @@
                     <tr style="border-bottom: 2px solid black;">
                         <th style="border-right: 1px solid gray; padding-right: 10px; text-align: left">Sensor</th>
                         <th style="padding-left: 10px;border-right: 1px solid gray; padding-right: 10px">°C</th>
-                        <th style="padding-left: 10px;">% rF </th>
+                        <th style="padding-left: 10px;border-right: 1px solid gray; padding-right: 10px">% rF </th>
                         <th style="padding-left: 10px;">𝜏 °C</th>
                     </tr>
                     <tr style="border-bottom: 1px solid gray;">
                         <td style="border-right: 1px solid gray;padding-right: 10px">Verarbeitung</td>
-                        <td id="tdVerarbeitungGrad" style="padding-left: 10px; border-right: 1px solid gray;;border-right: 1px solid gray; padding-right: 10px"></td>
-                        <td id="tdVerarbeitungProzent" style="padding-left: 20px; "></td>
+                        <td id="tdVerarbeitungGrad" style="padding-left: 10px; border-right: 1px solid gray; border-right: 1px solid gray; padding-right: 10px"></td>
+                        <td id="tdVerarbeitungProzent" style="padding-left: 20px; border-right: 1px solid gray;border-right: 1px solid gray; padding-right: 10px"></td>
                         <td id="tdVerarbeitungTaupunkt" style="padding-left: 20px; "></td>
                     </tr>
                     <tr style="border-bottom: 1px solid gray;">
                         <td style="border-right: 1px solid gray;; padding-right: 10px">Zuschnitt Mitte</td>
-                        <td id="tdZuschnittMitteGrad" style="padding-left: 10px; ;border-right: 1px solid gray; padding-right: 10px"></td>
-                        <td style="padding-left: 20px; "></td>
+                        <td id="tdZuschnittMitteGrad" style="padding-left: 10px; border-right: 1px solid gray; padding-right: 10px"></td>
+                        <td style="padding-left: 20px; border-right: 1px solid gray; padding-right: 10px"></td>
                         <td style="padding-left: 20px; "></td>
                     </tr>
                     <tr style="border-bottom: 1px solid gray;">
                         <td style="border-right: 1px solid gray;; padding-right: 10px">Zuschnitt Decke</td>
-                        <td id="tdZuschnittDeckeGrad" style="padding-left: 10px; ;border-right: 1px solid gray; padding-right: 10px"> </td>
-                        <td style="padding-left: 20px; "></td>
+                        <td id="tdZuschnittDeckeGrad" style="padding-left: 10px; border-right: 1px solid gray; padding-right: 10px"> </td>
+                        <td style="padding-left: 20px; border-right: 1px solid gray; padding-right: 10px"></td>
                         <td style="padding-left: 20px; "></td>
                     </tr>
                     <tr style="border-bottom: 1px solid gray;">
                         <td style="border-right: 1px solid gray;; padding-right: 10px">Kino</td>
-                        <td id="tdKinoGrad" style="padding-left: 10px; ;border-right: 1px solid gray; padding-right: 10px"></td>
-                        <td style="padding-left: 20px; "></td>
+                        <td id="tdKinoGrad" style="padding-left: 10px; border-right: 1px solid gray; padding-right: 10px"></td>
+                        <td style="padding-left: 20px; border-right: 1px solid gray; padding-right: 10px"></td>
                         <td style="padding-left: 20px; "></td>
                     </tr>
                     <tr style="border-bottom: 1px solid gray;">
                         <td style="border-right: 1px solid gray;; padding-right: 10px">Draußen</td>
-                        <td id="tdDrauszenGrad" style="padding-left: 10px; ;border-right: 1px solid gray; padding-right: 10px"></td>
-                        <td style="padding-left: 20px; "></td>
+                        <td id="tdDrauszenGrad" style="padding-left: 10px; border-right: 1px solid gray; padding-right: 10px"></td>
+                        <td style="padding-left: 20px; border-right: 1px solid gray; padding-right: 10px"></td>
                         <td style="padding-left: 20px; "></td>
                     </tr>
                     <tr style="border-bottom: 1px solid gray;">
                         <td style="border-right: 1px solid gray;; padding-right: 10px">Halle Rolltor</td>
-                        <td id="tdHalleRolltorGrad" style="padding-left: 10px; ;border-right: 1px solid gray; padding-right: 10px"></td>
-                        <td id="tdHalleRolltorProzent" style="padding-left: 20px; "></td>
+                        <td id="tdHalleRolltorGrad" style="padding-left: 10px; border-right: 1px solid gray; padding-right: 10px"></td>
+                        <td id="tdHalleRolltorProzent" style="padding-left: 20px; border-right: 1px solid gray; padding-right: 10px"></td>
                         <td id="tdHalleRolltorTaupunkt" style="padding-left: 20px; "></td>
                     </tr>
                     <tr style="border-bottom: 1px solid gray;">
                         <td style="border-right: 1px solid gray;; padding-right: 10px">Halle Laser</td>
-                        <td id="tdHalleLaserGrad" style="padding-left: 10px; ;border-right: 1px solid gray; padding-right: 10px"></td>
-                        <td style="padding-left: 20px; "></td>
+                        <td id="tdHalleLaserGrad" style="padding-left: 10px; border-right: 1px solid gray; padding-right: 10px"></td>
+                        <td style="padding-left: 20px; border-right: 1px solid gray; padding-right: 10px"></td>
                         <td style="padding-left: 20px; "></td>
                     </tr>
                     <tr style="border-bottom: 1px solid gray;">
                         <td style="border-right: 1px solid gray;; padding-right: 10px">Halle Laser Decke</td>
-                        <td id="tdHalleLaserDeckeGrad" style="padding-left: 10px; ;border-right: 1px solid gray; padding-right: 10px"></td>
-                        <td style="padding-left: 20px; "></td>
+                        <td id="tdHalleLaserDeckeGrad" style="padding-left: 10px; border-right: 1px solid gray; padding-right: 10px"></td>
+                        <td style="padding-left: 20px; border-right: 1px solid gray; padding-right: 10px"></td>
                         <td style="padding-left: 20px; "></td>
                     </tr>
                     <tr>
                         <td style="border-right: 1px solid gray;; padding-right: 10px">Kleberaum</td>
-                        <td id="tdKleberaum" style="padding-left: 10px; ;border-right: 1px solid gray; padding-right: 10px"></td>
-                        <td style="padding-left: 20px; "></td>
+                        <td id="tdKleberaum" style="padding-left: 10px; border-right: 1px solid gray; padding-right: 10px"></td>
+                        <td style="padding-left: 20px; border-right: 1px solid gray; padding-right: 10px"></td>
                         <td style="padding-left: 20px; "></td>
                     </tr>
                 </table>

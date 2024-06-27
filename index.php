@@ -357,17 +357,17 @@
             }
 
             // Sättigungsdampfdruck in hPa
-            let sdd = 6.1078 * pow(10, (a * tempCelsius) / (b + tempCelsius));
+            let sdd = 6.1078 * Math.pow(10, (a * tempCelsius) / (b + tempCelsius));
 
             // Dampfdruck in hPa
             let dd = sdd * (relFeuchte / 100);
 
             // v-Parameter
-            let v = log10(dd / 6.1078);
+            let v = Math.log10(dd / 6.1078);
 
             // Taupunkttemperatur (°C)
             let tt = (b * v) / (a - v);
-            return tt;
+            return Math.round((tt + Number.EPSILON) * 100) / 100;
         }
 
 

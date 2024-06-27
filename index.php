@@ -1,174 +1,165 @@
-<html>
+<!DOCTYPE html>
+<html lang="de">
 <head>
-<title>PV Status Viewer</title>
-<script src="js/jquery-3.6.0.min.js"></script>
-<script src="js/chart.min.js"></script>
-<link rel="icon" href="favicon.ico" type="image/x-icon">
+    <title>PV Status Viewer</title>
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script src="js/chart.min.js"></script>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
 </head>
-<table>
-
+<body>
 <div id="nachtPauseDiv" style="width: 100%;height: 100%;position: absolute;top: 0;left: 0;background: #666666;font-size: 100px; font-weight: bold;margin:auto;text-align: center;padding-top:10%">
 	Nachtpause
 </div>
 
 
-<table style="height:100%; width:100%;table-layout: fixed;">
-	<tr style="height:45%">
-		<td style="width:15%;height:40%;border: 1px solid #000" colspan="1">
-            <div id="OverviewBarInfoDiv" style="text-align: center; font-family:khand, Helvetica, Arial, sans-serif; color: rgb(0,150,190); font-size: 28px"></div>
-            <div style="height:80%">
-			  <canvas id="chartBarCanvas"></canvas>
-			</div>
-		</td>
-        <td style="width:12%;height:40%;border: 1px solid #000;" colspan="1">
-            <div style="height:90%">
-                <canvas id="chartPieCanvas"></canvas>
+<div id="mailTableDiv" style="display: flex;  flex-direction: column; height: 98vh;; width:100%">
+    <div id="mainUpperPartDiv" style="display: flex; flex-direction: row; height: 49vh; width:100%">
+        <div id="barDiagrammMainDiv" style="display: flex; flex-direction: column; width:20%;border: 1px solid black; margin:1px">
+            <div id="OverviewBarInfoDiv" style="display: flex; text-align: center; font-family:khand, Helvetica, Arial, sans-serif; color: rgb(0,150,190); font-size: 1.7vmin"></div>
+            <div style="height:80%; display: flex">
+                <canvas id="chartBarCanvas"></canvas>
             </div>
-        </td>
-		<td style="width:33%;height:40%;border: 1px solid #000;" colspan="3">
-            <div id="smallHistoryInfoDiv" style="text-align: center; font-family:khand, Helvetica, Arial, sans-serif; color: rgb(0,150,190); font-size: 28px"></div>
-            <div style="height:95%">
-			  <canvas id="chartSmallHistoryCanvas"></canvas>
-			</div>
-		</td>
-		<td style="width:40%;height:40%;border: 1px solid #000;text-align: center;">
-			<div style="height:8%;"><img src="img/td_sz.svg" style="height:80%;width:80%"></div>
-			<div style="height:80px"><img src="img/token_gelb.svg" style="height:100%;width:20% "></div>
-			<!-- <div style="height:11%"><img src="img/PLEXIGLAS-in-jeder-Form.svg" style="height:100%;width:30%"></div> -->
+        </div>
+        <div id="cakeDiagrammMainDiv" style="display: flex; width:20%; border: 1px solid black; margin:1px">
+            <canvas id="chartPieCanvas"></canvas>
+        </div>
+        <div id="shortHistoryMainDiv" style="display: flex;flex-direction: column; width:20%; border: 1px solid black; margin:1px">
+            <div id="smallHistoryInfoDiv" style="display: flex; text-align: center; font-family:khand, Helvetica, Arial, sans-serif; color: rgb(0,150,190); font-size: 2.8vmin"></div>
+            <div style="height:95%; display: flex">
+                <canvas id="chartSmallHistoryCanvas"></canvas>
+            </div>
+        </div>
+        <div id="SensorMainDiv" style="display: flex; flex-direction:column;width:40%; border: 1px solid black; margin:1px; position:relative">
+            <div style="display: flex; flex-direction: row; margin-top: 1vh">
+                <div style="height:6vmin; display: flex; margin-left:auto; margin-right:auto"><img src="img/td_sz.svg" style="height:100%;width:100%" alt=""></div>
+                <div style="height:6vmin; display: flex; margin-left:auto; margin-right:auto"><img src="img/PLEXIGLAS-in-jeder-Form.svg" style="height:100%;width:100%" alt=""></div>
+                <div style="height:6vmin; display: flex; margin-left:auto; margin-right:auto"><img src="img/token_gelb.svg" style="height:100%;width:100% " alt=""></div>
+            </div>
 
-            <div style="margin-bottom: 10px">
-                <!-- <div style="text-align: center;font-family:khand, Helvetica, Arial, sans-serif; font-size: 20px; font-weight: bold;">Umgebungsdaten</div> -->
-                <table style="margin-right: 10px;">
+            <div style="display: flex; flex-direction: row">
+                <div id="homeAssistantStatusFenster" style="margin-right:auto; margin-left: auto;"> </div>
+                <table style="margin-top: 1.7vh; margin-right:auto; margin-left: auto; border-collapse: collapse; font-family:khand, Helvetica, Arial, sans-serif; font-size: 1.7vmin; font-weight: bold;">
+                    <tr style="border-bottom: 2px solid black;">
+                        <th style="border-right: 1px solid gray; padding-right: 10px; text-align: left">Sensor</th>
+                        <th style="padding-left: 10px;border-right: 1px solid gray; padding-right: 10px">°C</th>
+                        <th style="padding-left: 10px;">% rF </th>
+                        <th style="padding-left: 10px;">𝜏 °C</th>
+                    </tr>
+                    <tr style="border-bottom: 1px solid gray;">
+                        <td style="border-right: 1px solid gray;padding-right: 10px">Verarbeitung</td>
+                        <td id="tdVerarbeitungGrad" style="padding-left: 10px; border-right: 1px solid gray;;border-right: 1px solid gray; padding-right: 10px"></td>
+                        <td id="tdVerarbeitungProzent" style="padding-left: 20px; "></td>
+                        <td id="tdVerarbeitungTaupunkt" style="padding-left: 20px; "></td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid gray;">
+                        <td style="border-right: 1px solid gray;; padding-right: 10px">Zuschnitt Mitte</td>
+                        <td id="tdZuschnittMitteGrad" style="padding-left: 10px; ;border-right: 1px solid gray; padding-right: 10px"></td>
+                        <td style="padding-left: 20px; "></td>
+                        <td style="padding-left: 20px; "></td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid gray;">
+                        <td style="border-right: 1px solid gray;; padding-right: 10px">Zuschnitt Decke</td>
+                        <td id="tdZuschnittDeckeGrad" style="padding-left: 10px; ;border-right: 1px solid gray; padding-right: 10px"> </td>
+                        <td style="padding-left: 20px; "></td>
+                        <td style="padding-left: 20px; "></td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid gray;">
+                        <td style="border-right: 1px solid gray;; padding-right: 10px">Kino</td>
+                        <td id="tdKinoGrad" style="padding-left: 10px; ;border-right: 1px solid gray; padding-right: 10px"></td>
+                        <td style="padding-left: 20px; "></td>
+                        <td style="padding-left: 20px; "></td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid gray;">
+                        <td style="border-right: 1px solid gray;; padding-right: 10px">Draußen</td>
+                        <td id="tdDrauszenGrad" style="padding-left: 10px; ;border-right: 1px solid gray; padding-right: 10px"></td>
+                        <td style="padding-left: 20px; "></td>
+                        <td style="padding-left: 20px; "></td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid gray;">
+                        <td style="border-right: 1px solid gray;; padding-right: 10px">Halle Rolltor</td>
+                        <td id="tdHalleRolltorGrad" style="padding-left: 10px; ;border-right: 1px solid gray; padding-right: 10px"></td>
+                        <td id="tdHalleRolltorProzent" style="padding-left: 20px; "></td>
+                        <td id="tdHalleRolltorTaupunkt" style="padding-left: 20px; "></td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid gray;">
+                        <td style="border-right: 1px solid gray;; padding-right: 10px">Halle Laser</td>
+                        <td id="tdHalleLaserGrad" style="padding-left: 10px; ;border-right: 1px solid gray; padding-right: 10px"></td>
+                        <td style="padding-left: 20px; "></td>
+                        <td style="padding-left: 20px; "></td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid gray;">
+                        <td style="border-right: 1px solid gray;; padding-right: 10px">Halle Laser Decke</td>
+                        <td id="tdHalleLaserDeckeGrad" style="padding-left: 10px; ;border-right: 1px solid gray; padding-right: 10px"></td>
+                        <td style="padding-left: 20px; "></td>
+                        <td style="padding-left: 20px; "></td>
+                    </tr>
                     <tr>
-                        <td style="vertical-align: top;">
-                            <div id="homeAssistantStatusFenster"> </div>
-                        </td>
-                        <td style="vertical-align: top;">
-                            <table style="margin: 21px auto;  border-collapse: collapse; font-family:khand, Helvetica, Arial, sans-serif; font-size: 18px; font-weight: bold;">
-                                <tr style="border-bottom: 2px solid black;">
-                                    <th style="border-right: 1px solid gray; padding-right: 10px; text-align: left">Sensor</th>
-                                    <th style="padding-left: 10px;border-right: 1px solid gray; padding-right: 10px">°C</th>
-                                    <th style="padding-left: 10px;">% rF </th>
-                                </tr>
-                                <tr style="border-bottom: 1px solid gray;">
-                                    <td style="border-right: 1px solid gray;padding-right: 10px">Verarbeitung</td>
-                                    <td id="tdVerarbeitungGrad" style="padding-left: 10px; border-right: 1px solid gray;;border-right: 1px solid gray; padding-right: 10px""></td>
-                                    <td id="tdVerarbeitungProzent" style="padding-left: 20px; "></td>
-                                </tr>
-                                <tr style="border-bottom: 1px solid gray;">
-                                    <td style="border-right: 1px solid gray;; padding-right: 10px">Zuschnitt Mitte</td>
-                                    <td id="tdZuschnittMitteGrad" style="padding-left: 10px; ;border-right: 1px solid gray; padding-right: 10px""></td>
-                                    <td style="padding-left: 20px; "></td>
-                                </tr>
-                                <tr style="border-bottom: 1px solid gray;">
-                                    <td style="border-right: 1px solid gray;; padding-right: 10px">Zuschnitt Decke</td>
-                                    <td id="tdZuschnittDeckeGrad" style="padding-left: 10px; ;border-right: 1px solid gray; padding-right: 10px""></td>
-                                    <td style="padding-left: 20px; "></td>
-                                </tr>
-                                <tr style="border-bottom: 1px solid gray;">
-                                    <td style="border-right: 1px solid gray;; padding-right: 10px">Kino</td>
-                                    <td id="tdKinoGrad" style="padding-left: 10px; ;border-right: 1px solid gray; padding-right: 10px""></td>
-                                    <td style="padding-left: 20px; "></td>
-                                </tr>
-                                <tr style="border-bottom: 1px solid gray;">
-                                    <td style="border-right: 1px solid gray;; padding-right: 10px">Draußen</td>
-                                    <td id="tdDrauszenGrad" style="padding-left: 10px; ;border-right: 1px solid gray; padding-right: 10px""></td>
-                                    <td style="padding-left: 20px; "></td>
-                                </tr>
-                                <tr style="border-bottom: 1px solid gray;">
-                                    <td style="border-right: 1px solid gray;; padding-right: 10px">Halle Rolltor</td>
-                                    <td id="tdHalleRolltorGrad" style="padding-left: 10px; ;border-right: 1px solid gray; padding-right: 10px""></td>
-                                    <td id="tdHalleRolltorProzent" style="padding-left: 20px; "></td>
-                                </tr>
-                                <tr style="border-bottom: 1px solid gray;">
-                                    <td style="border-right: 1px solid gray;; padding-right: 10px">Halle Laser</td>
-                                    <td id="tdHalleLaserGrad" style="padding-left: 10px; ;border-right: 1px solid gray; padding-right: 10px""></td>
-                                    <td style="padding-left: 20px; "></td>
-                                </tr>
-                                <tr style="border-bottom: 1px solid gray;">
-                                    <td style="border-right: 1px solid gray;; padding-right: 10px">Halle Laser Decke</td>
-                                    <td id="tdHalleLaserDeckeGrad" style="padding-left: 10px; ;border-right: 1px solid gray; padding-right: 10px""></td>
-                                    <td style="padding-left: 20px; "></td>
-                                </tr>
-                                <tr>
-                                    <td style="border-right: 1px solid gray;; padding-right: 10px">Kleberaum</td>
-                                    <td id="tdKleberaum" style="padding-left: 10px; ;border-right: 1px solid gray; padding-right: 10px""></td>
-                                    <td style="padding-left: 20px; "></td>
-                                </tr>
-                            </table>
-                        </td>
+                        <td style="border-right: 1px solid gray;; padding-right: 10px">Kleberaum</td>
+                        <td id="tdKleberaum" style="padding-left: 10px; ;border-right: 1px solid gray; padding-right: 10px"></td>
+                        <td style="padding-left: 20px; "></td>
+                        <td style="padding-left: 20px; "></td>
                     </tr>
                 </table>
-
-                <!--
-                <div id="TempFeuchtVerarbeitung" style="text-align: left; padding-left: 10px; font-family:khand, Helvetica, Arial, sans-serif; font-size: 20px; font-weight: normal; "></div>
-                <div id="TempZuschnitt" style="text-align: left; padding-left: 10px; font-family:khand, Helvetica, Arial, sans-serif; font-size: 20px; font-weight: normal; "></div>
-                <div id="TempFeuchtHalleDurchgang" style="text-align: left; padding-left: 10px; font-family:khand, Helvetica, Arial, sans-serif; font-size: 20px; font-weight: normal; "></div>
-                <div id="TempHalleLaserKleberaum" style="text-align: left; padding-left: 10px; font-family:khand, Helvetica, Arial, sans-serif; font-size: 20px; font-weight: normal; "></div>
-                -->
             </div>
-
-			<div style="height:1%" id="lastrefresh"></div>
-		</td>
-	</tr>
-	<tr style="height:50%">
-		<td style="width:50%;height:50%;text-align: center;border: 1px solid #000" colspan="4">
-            <div id="largeHistoryInfoDiv" style="text-align: center; font-family:khand, Helvetica, Arial, sans-serif; color: rgb(0,150,190); font-size: 28px">
+            <div style="position: absolute; right:5px; font-size: 1.6vmin; bottom: 5px" id="lastrefresh"></div>
+        </div>
+    </div>
+    <div id="mainLowerPartDiv" style="display: flex; flex-direction: row; height: 49vh; width: 100%">
+        <div id="longHistoryMainDiv" style="display: flex; flex-direction: column; width: 50%; border: 1px solid black; margin:1px">
+            <div id="largeHistoryInfoDiv" style="display: flex; text-align: center; font-family:khand, Helvetica, Arial, sans-serif; color: rgb(0,150,190); font-size: 18px">
             </div>
-			<div style="height:85%">
-			  <canvas id="chartLargeHistoryCanvas"></canvas>
-			</div>
-		</td>
-		<td style="width:50%;height:50%;border: 1px solid #000;position: relative" colspan="2">
-            <div id="Datum" style="right: 20px; top:20px;font-family:khand, Helvetica, Arial, sans-serif; font-size: 30px; text-align: right;font-weight: bolder; position:absolute">aaaaaa</div>
-            <div id="Uhrzeit" style="text-align: center;font-family:khand, Helvetica, Arial, sans-serif; font-size: 240px; font-weight: bolder; top: -30px; position: absolute;left: 50px;"></div>
-			<div style="margin-top: 160px;padding-left:10px; padding-right:10px;font-family:khand, Helvetica, Arial, sans-serif;">
-				<table style="width:100%;height:100%;">
-					<tr>
-						<td style="width:25%;height:20%;text-align: center; padding-top:30px;">
-							<div id="pvValueDiv" style="font-size: 30px; font-weight: bold;line-height:5px"></div>
-						</td>
-						<td style="width:12.5%;height:20%;text-align: center">
-							
-						</td>
-						<td style="width:25%;height:20%;text-align: center; padding-top:30px">
-							<div id="loadValueDiv" style="font-size: 30px; font-weight: bold; line-height:5px"></div>
-						</td>
-						<td style="width:12.5%;height:20%;text-align: center">
-							
-						</td>
-						<td style="width:25%;height:20%;text-align: center; padding-top:30px">
-							<div id="gridValueDiv" style="font-size: 30px; font-weight: bold;line-height:5px"></div>
-						</td>
-					</tr>
-					
-					<tr>
-						<td style="width:25%;height:20%;text-align: center">
-							<img id="ActivePVImg" src="img/PvActive.svg" style="height:100%;width:100%">
-							<img id="InactivePV" src="img/PvInactive.svg" style="height:100%;width:100%">
-						</td>
-						<td style="width:12.5%;height:20%;text-align: center">
-							<img id="pvArrowImg" src="img/GreenArrowRight.svg" style="height:100%;width:100%">
-						</td>
-						<td style="width:25%;height:20%;text-align: center">
-							<img id="ProductionActiveImg" src="img/ProductionActive.svg" style="height:100%;width:100%">
-							<img id="ProductionInActiveImg" src="img/ProductionInActive.svg" style="height:100%;width:100%">
-						</td>
-						<td style="width:12.5%;height:20%;text-align: center">
-							<img id="gridArrowLeftImg" src="img/OrangeArrowLeft.svg" style="height:100%;width:100%">
-							<img id="gridArrowRightImg" src="img/GreenArrowRight.svg" style="height:100%;width:100%">
-						</td>
-						<td style="width:25%;height:20%;text-align: center">
-							<img id="ActiveNetImg" src="img/GridNetActiveNet.svg" style="height:100%;width:100%">
-							<img id="InactiveNetImg" src="img/GridNetInactiveNet.svg" style="height:100%;width:100%">
-						</td>
-					</tr>
-				</table>
-			</div>
-		</td>
-	</tr>
-</table>
-<div>
+            <div style="height:85%; display: flex">
+                <canvas id="chartLargeHistoryCanvas"></canvas>
+            </div>
+        </div>
+        <div id="inputOutpuTimeMainDiv" style="display: flex; width: 50%; border: 1px solid black; margin:1px; position: relative;">
+            <div id="Datum" style="right: 2vmin; top:2vmin;font-family:khand, Helvetica, Arial, sans-serif; font-size: 5vmin; text-align: right;font-weight: bolder; position: absolute"></div>
+            <div id="Uhrzeit" style="text-align: center;font-family:khand, Helvetica, Arial, sans-serif; font-size: 26vmin; top: -7vmin; font-weight: bolder; left: 3vmin; position: absolute"></div>
+            <table style="width: 29vw;height:15vh;position: absolute;left: calc(25vw - 14.5vw); bottom:0">
+                <tr>
+                    <td style="width:7vw;height:5vh;text-align: center">
+                        <div id="pvValueDiv" style="font-size: 3vmin; font-weight: bold;line-height:5px"></div>
+                    </td>
+                    <td style="width:4vw;height:5vh;text-align: center">
+
+                    </td>
+                    <td style="width:7vw;hheight:5vh;text-align: center">
+                        <div id="loadValueDiv" style="font-size: 3vmin; font-weight: bold; line-height:5px"></div>
+                    </td>
+                    <td style="width:4vw;height:5vh;text-align: center">
+
+                    </td>
+                    <td style="width:7vw;height:5vh;text-align: center">
+                        <div id="gridValueDiv" style="font-size: 3vmin; font-weight: bold;line-height:5px"></div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="width:7vw;height:10vh;text-align: center">
+                        <img id="ActivePVImg" src="img/PvActive.svg" style="height:100%;width:100%; display: none" alt="">
+                        <img id="InactivePV" src="img/PvInactive.svg" style="height:100%;width:100%; display: none" alt="">
+                    </td>
+                    <td style="width:4vw;height:10vh;text-align: center">
+                        <img id="pvArrowImg" src="img/GreenArrowRight.svg" style="height:100%;width:100%; display: none" alt="">
+                    </td>
+                    <td style="width:7vw;height:10vh;text-align: center">
+                        <img id="ProductionActiveImg" src="img/ProductionActive.svg" style="height:100%;width:100%; display: none" alt="">
+                        <img id="ProductionInActiveImg" src="img/ProductionInActive.svg" style="height:100%;width:100%; display: none" alt="">
+                    </td>
+                    <td style="width:4vw;height:10vh;text-align: center">
+                        <img id="gridArrowLeftImg" src="img/OrangeArrowLeft.svg" style="height:100%;width:100%; display: none" alt="">
+                        <img id="gridArrowRightImg" src="img/GreenArrowRight.svg" style="height:100%;width:100%; display: none" alt="">
+                    </td>
+                    <td style="width:7vw;height:10vh;text-align: center">
+                        <img id="ActiveNetImg" src="img/GridNetActiveNet.svg" style="height:100%;width:100%; display: none" alt="">
+                        <img id="InactiveNetImg" src="img/GridNetInactiveNet.svg" style="height:100%;width:100%; display: none" alt="">
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
 
 <script>
 	const currentPowerFlowDownloaderUrl = "currentPowerFlowDownloader.php";
@@ -227,8 +218,7 @@
         if (((lastSuccessfullPowerDetailsDownload - nowMillis) > (1000 * 60 * 32)) // falls der letzte erfolgreiche long History call länger als 32 min her ist
            || (((lastSuccessfulCurrentPowerFlowDownload - nowMillis) > (1000 * 60 * 10)))) // ODER falls der letzte erfolgreiche current value call länger als 10 min her ist
         {
-            let url = window.location.href;
-            window.location.href = url;
+            window.location.href = window.location.href;
         }
     }
 
@@ -314,16 +304,16 @@
 			gridPowerGlobal = json.siteCurrentPowerFlow.GRID.currentPower;
 			loadStatus = json.siteCurrentPowerFlow.LOAD.status;
 			loadPower = json.siteCurrentPowerFlow.LOAD.currentPower;
-			pvStatus = json.siteCurrentPowerFlow.PV.status;;
+			pvStatus = json.siteCurrentPowerFlow.PV.status;
 			pvPower = json.siteCurrentPowerFlow.PV.currentPower;
 
 			overageVar = null;
 			for (const connection of json.siteCurrentPowerFlow.connections) {
-				if (connection.from.toLowerCase() == "load" && connection.to.toLowerCase() == "grid") {
+				if (connection.from.toLowerCase() === "load" && connection.to.toLowerCase() === "grid") {
 					overageVar = true;
 				}
 				
-				if (connection.from.toLowerCase() == "grid" && connection.to.toLowerCase() == "load") {
+				if (connection.from.toLowerCase() === "grid" && connection.to.toLowerCase() === "load") {
 					overageVar = false;
 				}
 			}
@@ -353,6 +343,34 @@
 			console.log("error " + a + b + c + "    used Url: " + currentPowerFlowDownloaderUrl);
 		});
 
+        function calcTaupunkt(tempCelsius, relFeuchte) {
+
+            let a;
+            let b;
+
+            if (tempCelsius >= 0) {
+                a = 7.5;
+                b = 237.3;
+            } else if (tempCelsius < 0) {
+                a = 7.6;
+                b = 240.7;
+            }
+
+            // Sättigungsdampfdruck in hPa
+            let sdd = 6.1078 * pow(10, (a * tempCelsius) / (b + tempCelsius));
+
+            // Dampfdruck in hPa
+            let dd = sdd * (relFeuchte / 100);
+
+            // v-Parameter
+            let v = log10(dd / 6.1078);
+
+            // Taupunkttemperatur (°C)
+            let tt = (b * v) / (a - v);
+            return tt;
+        }
+
+
         jQuery.getJSON(verarbeitungTempFeuchtDownloaderUrl, function(json) {
             if (Object.hasOwn(json, "error")) {
                 return;
@@ -363,8 +381,9 @@
 
             jQuery("#tdVerarbeitungGrad").html(temp);
             jQuery("#tdVerarbeitungProzent").html(feucht);
+            jQuery("#tdVerarbeitungTaupunkt").html(calcTaupunkt(temp, feucht));
 
-            //jQuery("#TempFeuchtVerarbeitung").html("Verarbeitung: Temperatur: " + temp + "°C" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rel. Luftfeuchtigkeit: " + feucht + "%");
+            jQuery("#TempFeuchtVerarbeitung").html("Verarbeitung: Temperatur: " + temp + "°C" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rel. Luftfeuchtigkeit: " + feucht + "%");
         }).fail(function(a, b, c) {
             console.log("error " + a + b + c + "    used Url: " + verarbeitungTempFeuchtDownloaderUrl);
         });
@@ -386,7 +405,7 @@
             jQuery("#tdDrauszenGrad").html(tempAussen);
 
 
-            //jQuery("#TempZuschnitt").html("Zuschnitt: Temperatur Mitte = " + tempMitte + "°C&nbsp;&nbsp;&nbsp;&nbsp;Decke = " + tempDecke + "°C<br>Temperatur Kino = " + tempKino + "°C<br>Temperatur Aussen = " + tempAussen + "°C   ");
+            jQuery("#TempZuschnitt").html("Zuschnitt: Temperatur Mitte = " + tempMitte + "°C&nbsp;&nbsp;&nbsp;&nbsp;Decke = " + tempDecke + "°C<br>Temperatur Kino = " + tempKino + "°C<br>Temperatur Aussen = " + tempAussen + "°C   ");
         }).fail(function(a, b, c) {
             console.log("error " + a + b + c + "    used Url: " + zuschnittTempDownloaderUrl);
         });
@@ -402,8 +421,9 @@
 
             jQuery("#tdHalleRolltorGrad").html(temp);
             jQuery("#tdHalleRolltorProzent").html(feucht);
+            jQuery("#tdHalleRolltorTaupunkt").html(calcTaupunkt(temp, feucht));
 
-            //jQuery("#TempFeuchtHalleDurchgang").html("Halle Rolltor: Temperatur: " + temp + "°C" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rel. Luftfeuchtigkeit: " + feucht + "%");
+            jQuery("#TempFeuchtHalleDurchgang").html("Halle Rolltor: Temperatur: " + temp + "°C" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rel. Luftfeuchtigkeit: " + feucht + "%");
         }).fail(function(a, b, c) {
             console.log("error " + a + b + c + "    used Url: " + verarbeitungTempFeuchtDownloaderUrl);
         });
@@ -421,7 +441,7 @@
             jQuery("#tdHalleLaserDeckeGrad").html(tmpHalleDecke);
             jQuery("#tdKleberaum").html(tmpKleberaum);
 
-            //jQuery("#TempHalleLaserKleberaum").html("Halle Laser Temperatur = " + tmpHalleLaser + "°C<br>Halle Laser Decke = " + tmpHalleDecke + "°C<br>Kleberaum = " + tmpKleberaum + "°C");
+            jQuery("#TempHalleLaserKleberaum").html("Halle Laser Temperatur = " + tmpHalleLaser + "°C<br>Halle Laser Decke = " + tmpHalleDecke + "°C<br>Kleberaum = " + tmpKleberaum + "°C");
         }).fail(function(a, b, c) {
             console.log("error " + a + b + c + "    used Url: " + zuschnittTempDownloaderUrl);
         });
@@ -431,7 +451,7 @@
                 return;
             }
 
-            let html = "<table style='margin-right: 10px; margin-left: 10px; font-family:khand, Helvetica, Arial, sans-serif; font-size: 18px; font-weight: bold;border-collapse: collapse;'>";
+            let html = "<table style='margin-right:auto; margin-left: auto; font-family:khand, Helvetica, Arial, sans-serif; font-size: 1.7vmin; font-weight: bold;border-collapse: collapse;'>";
             html += "<tr style='margin-right=10px;border-bottom: 2px solid black;'>";
             html += "<td style='border-right: 1px solid gray;padding-right: 10px;vertical-align: bottom'>Fenster</td>";
             html += "<td style='border-right: 1px solid gray;padding-left: 10px;padding-right: 10px;;vertical-align: bottom'>Status</td>";
@@ -485,7 +505,7 @@
 	
 	function overage() {
 		const overageViaPower = parseFloat(pvPower) > parseFloat(loadPower);
-		if (overageVar != null && overageViaPower != overageVar) {
+		if (overageVar != null && overageViaPower !== overageVar) {
 			console.log("Error 1\r\noverageViaPower: " + overageViaPower + "\r\noverageVar: " + overageVar);
 		}
 		return overageVar;
@@ -732,7 +752,7 @@
 		document.getElementById('loadValueDiv').innerHTML = loadPower + " " + currentPowerUnit;
 		document.getElementById('gridValueDiv').innerHTML = gridPowerGlobal + " " + currentPowerUnit;
 		
-		if (pvStatus == "Active") {
+		if (pvStatus === "Active") {
 			document.getElementById('ActivePVImg').style.display = "inline";
 			document.getElementById('InactivePV').style.display = "none";
 			document.getElementById('pvArrowImg').style.display = "inline";
@@ -742,7 +762,7 @@
 			document.getElementById('pvArrowImg').style.display = "none";
 		}
 		
-		if (gridStatus == "Active") {
+		if (gridStatus === "Active") {
 			document.getElementById('ActiveNetImg').style.display = "inline";
 			document.getElementById('InactiveNetImg').style.display = "none";
 			
@@ -762,7 +782,7 @@
 			document.getElementById('gridArrowRightImg').style.display = "none";
 		}
 		
-		if (loadStatus == "Active") {
+		if (loadStatus === "Active") {
 			document.getElementById('ProductionActiveImg').style.display = "inline";
 			document.getElementById('ProductionInActiveImg').style.display = "none";
 		} else {
@@ -790,9 +810,7 @@
 		endDate.setMinutes(endTime.split(":")[1]);
 		endDate.setSeconds(endTime.split(":")[2]);
 
-		var valid = startDate < currentDate && endDate > currentDate;
-		
-		return valid;
+		return startDate < currentDate && endDate > currentDate;
 	}
 
     function getYears(date) {
@@ -826,4 +844,4 @@
 </script>
 
 </body>
-<html>
+</html>

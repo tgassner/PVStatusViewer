@@ -15,22 +15,22 @@
 
 <div id="mailTableDiv" style="display: flex;  flex-direction: column; height: 98vh;; width:100%">
     <div id="mainUpperPartDiv" style="display: flex; flex-direction: row; height: 49vh; width:100%">
-        <div id="barDiagrammMainDiv" style="display: flex; flex-direction: column; width:20%;border: 1px solid black; margin:1px">
-            <div id="OverviewBarInfoDiv" style="display: flex; text-align: center; font-family:khand, Helvetica, Arial, sans-serif; color: rgb(0,150,190); font-size: 1.7vmin"></div>
-            <div style="height:80%; display: flex">
+        <div id="barDiagrammMainDiv" style="display: flex; flex-direction: column; width:20%;border: 1px solid black; border-radius: 8px; margin:1px">
+            <div id="OverviewBarInfoDiv" style="display: flex; text-align: center; font-family:khand, Helvetica, Arial, sans-serif; color: rgb(0,150,190); font-size: 1.55vmin; margin-left:8px; margin-top:3px"></div>
+            <div style="height:90%; display: flex; padding:5px">
                 <canvas id="chartBarCanvas"></canvas>
             </div>
         </div>
-        <div id="cakeDiagrammMainDiv" style="display: flex; width:20%; border: 1px solid black; margin:1px">
+        <div id="cakeDiagrammMainDiv" style="display: flex; width:20%; border: 1px solid black; border-radius: 8px; margin:1px; padding:5px">
             <canvas id="chartPieCanvas"></canvas>
         </div>
-        <div id="shortHistoryMainDiv" style="display: flex;flex-direction: column; width:20%; border: 1px solid black; margin:1px">
-            <div id="smallHistoryInfoDiv" style="display: flex; text-align: center; font-family:khand, Helvetica, Arial, sans-serif; color: rgb(0,150,190); font-size: 2.8vmin"></div>
-            <div style="height:95%; display: flex">
+        <div id="shortHistoryMainDiv" style="display: flex;flex-direction: column; width:20%; border: 1px solid black; border-radius: 8px; margin:1px">
+            <div id="smallHistoryInfoDiv" style="display: flex; text-align: center; font-family:khand, Helvetica, Arial, sans-serif; color: rgb(0,150,190); font-size: 2.6vmin; margin-left:8px"></div>
+            <div style="height:90%; display: flex">
                 <canvas id="chartSmallHistoryCanvas"></canvas>
             </div>
         </div>
-        <div id="SensorMainDiv" style="display: flex; flex-direction:column;width:40%; border: 1px solid black; margin:1px; position:relative">
+        <div id="SensorMainDiv" style="display: flex; flex-direction:column;width:40%; border: 1px solid black; border-radius: 8px; margin:1px; position:relative">
             <div style="display: flex; flex-direction: row; margin-top: 1vh">
                 <div style="height:6vmin; display: flex; margin-left:auto; margin-right:auto"><img src="img/td_sz.svg" style="height:100%;width:100%" alt=""></div>
                 <div style="height:6vmin; display: flex; margin-left:auto; margin-right:auto"><img src="img/PLEXIGLAS-in-jeder-Form.svg" style="height:100%;width:100%" alt=""></div>
@@ -106,44 +106,44 @@
         </div>
     </div>
     <div id="mainLowerPartDiv" style="display: flex; flex-direction: row; height: 49vh; width: 100%">
-        <div id="longHistoryMainDiv" style="display: flex; flex-direction: column; width: 50%; border: 1px solid black; margin:1px">
-            <div id="largeHistoryInfoDiv" style="display: flex; text-align: center; font-family:khand, Helvetica, Arial, sans-serif; color: rgb(0,150,190); font-size: 18px">
+        <div id="longHistoryMainDiv" style="display: flex; flex-direction: column; width: 50%; border: 1px solid black; border-radius: 8px; margin:1px">
+            <div id="largeHistoryInfoDiv" style="display: flex; text-align: center; font-family:khand, Helvetica, Arial, sans-serif; color: rgb(0,150,190); font-size: 2vmin; margin-left: 15px">
             </div>
             <div style="height:85%; display: flex">
                 <canvas id="chartLargeHistoryCanvas"></canvas>
             </div>
         </div>
-        <div id="inputOutpuTimeMainDiv" style="display: flex; width: 50%; border: 1px solid black; margin:1px; position: relative;">
+        <div id="inputOutpuTimeMainDiv" style="display: flex; width: 50%; border: 1px solid black; border-radius: 8px; margin:1px; position: relative;">
             <div id="Datum" style="right: 2vmin; top:2vmin;font-family:khand, Helvetica, Arial, sans-serif; font-size: 5vmin; text-align: right;font-weight: bolder; position: absolute"></div>
             <div id="Uhrzeit" style="text-align: center;font-family:khand, Helvetica, Arial, sans-serif; font-size: 26vmin; top: -7vmin; font-weight: bolder; left: 3vmin; position: absolute"></div>
-            <table style="width: 29vw;height:15vh;position: absolute;left: calc(25vw - 14.5vw); bottom:0">
+            <table style="width: 32vw;height:15vh;position: absolute;left: calc(25vw - 14.5vw); bottom:0">
                 <tr>
-                    <td style="width:7vw;height:5vh;text-align: center">
+                    <td style="width:8vw;height:5vh;text-align: center">
                         <div id="pvValueDiv" style="font-size: 3vmin; font-weight: bold;line-height:5px"></div>
                     </td>
                     <td style="width:4vw;height:5vh;text-align: center">
 
                     </td>
-                    <td style="width:7vw;hheight:5vh;text-align: center">
+                    <td style="width:8vw;height:5vh;text-align: center">
                         <div id="loadValueDiv" style="font-size: 3vmin; font-weight: bold; line-height:5px"></div>
                     </td>
                     <td style="width:4vw;height:5vh;text-align: center">
 
                     </td>
-                    <td style="width:7vw;height:5vh;text-align: center">
+                    <td style="width:8vw;height:5vh;text-align: center">
                         <div id="gridValueDiv" style="font-size: 3vmin; font-weight: bold;line-height:5px"></div>
                     </td>
                 </tr>
 
                 <tr>
-                    <td style="width:7vw;height:10vh;text-align: center">
+                    <td style="width:8vw;height:10vh;text-align: center">
                         <img id="ActivePVImg" src="img/PvActive.svg" style="height:100%;width:100%; display: none" alt="">
                         <img id="InactivePV" src="img/PvInactive.svg" style="height:100%;width:100%; display: none" alt="">
                     </td>
                     <td style="width:4vw;height:10vh;text-align: center">
                         <img id="pvArrowImg" src="img/GreenArrowRight.svg" style="height:100%;width:100%; display: none" alt="">
                     </td>
-                    <td style="width:7vw;height:10vh;text-align: center">
+                    <td style="width:8vw;height:10vh;text-align: center">
                         <img id="ProductionActiveImg" src="img/ProductionActive.svg" style="height:100%;width:100%; display: none" alt="">
                         <img id="ProductionInActiveImg" src="img/ProductionInActive.svg" style="height:100%;width:100%; display: none" alt="">
                     </td>
@@ -151,7 +151,7 @@
                         <img id="gridArrowLeftImg" src="img/OrangeArrowLeft.svg" style="height:100%;width:100%; display: none" alt="">
                         <img id="gridArrowRightImg" src="img/GreenArrowRight.svg" style="height:100%;width:100%; display: none" alt="">
                     </td>
-                    <td style="width:7vw;height:10vh;text-align: center">
+                    <td style="width:8vw;height:10vh;text-align: center">
                         <img id="ActiveNetImg" src="img/GridNetActiveNet.svg" style="height:100%;width:100%; display: none" alt="">
                         <img id="InactiveNetImg" src="img/GridNetInactiveNet.svg" style="height:100%;width:100%; display: none" alt="">
                     </td>

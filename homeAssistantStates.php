@@ -14,7 +14,7 @@ $opts = [
     ]
 ];
 
-$shutterStates = array("open" => "offen", "closed" => "geschlossen", "opening" => "öffnend", "closing" => "schließend");
+$shutterStates = array("open" => "offen", "closed" => "geschlossen", "opening" => "öffnend", "closing" => "schließend", "unavailable" => "nicht verfügbar");
 
 $timerToShutter = array("timer.timerfensterschlieszenverarbeitung" => "cover.lichtkuppelverarbeitung",
                     "timer.timerfensterschlieszenkueche" => "cover.lichtkuppelkueche",

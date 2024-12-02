@@ -489,7 +489,7 @@
         let currentdate = new Date();
         let zeit = getHours(currentdate) + ":" + getMinutes(currentdate);
         let datum = getDays(currentdate) + "." + getMonths(currentdate) + "." +getYears(currentdate) + "<br>" +
-            getDays(currentdate) + "." + getMonthName(currentdate) + "." +getYears(currentdate);
+            getDays(currentdate) + ". " + getMonthName(currentdate).substring(0, 3) + "  " +getYears(currentdate);
 
         jQuery("#Uhrzeit").html(zeit);
         jQuery("#Datum").html(datum);

@@ -7,13 +7,9 @@
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
 </head>
-<body>
-<div id="nachtPauseDiv" style="width: 100%;height: 100%;position: absolute;top: 0;left: 0;background: #666666;font-size: 100px; font-weight: bold;margin:auto;text-align: center;padding-top:10%">
-	Nachtpause
-</div>
+<body style="margin: 0.7vmin;">
 
-
-<div id="mailTableDiv" style="display: flex;  flex-direction: column; height: 98vh;; width:100%">
+<div id="mainTableDiv" style="display: flex;  flex-direction: column; height: 98vh; width:98vw">
     <div id="mainUpperPartDiv" style="display: flex; flex-direction: row; height: 49vh; width:100%">
         <div id="barDiagrammMainDiv" style="display: flex; flex-direction: column; width:20%;border: 1px solid black; border-radius: 8px; margin:1px">
             <div id="OverviewBarInfoDiv" style="display: flex; text-align: center; font-family:khand, Helvetica, Arial, sans-serif; color: rgb(0,150,190); font-size: 1.55vmin; margin-left:8px; margin-top:3px"></div>
@@ -31,15 +27,15 @@
             </div>
         </div>
         <div id="SensorMainDiv" style="display: flex; flex-direction:column;width:40%; border: 1px solid black; border-radius: 8px; margin:1px; position:relative">
-            <div style="display: flex; flex-direction: row; margin-top: 1vh">
+            <div style="display: flex; flex-direction: row; margin-top: 1vh; margin-bottom: 2vh;">
                 <div style="height:6vmin; display: flex; margin-left:auto; margin-right:auto"><img src="img/td_sz.svg" style="height:100%;width:100%" alt=""></div>
                 <div style="height:6vmin; display: flex; margin-left:auto; margin-right:auto"><img src="img/PLEXIGLAS-in-jeder-Form.svg" style="height:100%;width:100%" alt=""></div>
                 <div style="height:6vmin; display: flex; margin-left:auto; margin-right:auto"><img src="img/token_gelb.svg" style="height:100%;width:100% " alt=""></div>
             </div>
 
-            <div style="display: flex; flex-direction: row">
-                <div id="homeAssistantStatusFenster" style="margin-right:auto; margin-left: auto;"> </div>
-                <table style="margin-top: 1.7vh; margin-right:auto; margin-left: auto; border-collapse: collapse; font-family:khand, Helvetica, Arial, sans-serif; font-size: 1.7vmin; font-weight: bold;">
+            <div style="display: flex; flex-direction: row; height:38vh">
+                <div id="homeAssistantStatusFenster" style="margin-right:auto; margin-left: auto;padding-top: 0.5vh"> </div>
+                <table style="margin-top: 1.6vh; margin-right:auto; margin-left: auto; border-collapse: collapse; font-family:khand, Helvetica, Arial, sans-serif; font-size: 1.7vmin; font-weight: bold;">
                     <tr style="border-bottom: 2px solid black;">
                         <th style="border-right: 1px solid gray; padding-right: 10px; text-align: left">Sensor</th>
                         <th style="padding-left: 10px;border-right: 1px solid gray; padding-right: 10px">°C</th>
@@ -223,13 +219,6 @@
     }
 
     function powerDetailsDownloader() {
-		if (isTimeOK()) {
-			document.getElementById('nachtPauseDiv').style.display = "none";
-		} else {
-			document.getElementById('nachtPauseDiv').style.display = "block";
-			return;
-		}
-
         let currentdate = new Date();
         var $start = getYears(currentdate) + "-" + getMonths(currentdate) + "-" + getDays(currentdate) + "%2005:44:00";
         var $end = getYears(currentdate) + "-" + getMonths(currentdate) + "-" + getDays(currentdate) + "%20" + getHours(currentdate) + ":" + getMinutes(currentdate) + ":" + getSeconds(currentdate);
@@ -285,13 +274,6 @@
 	}
 
 	function currentPowerFlowDownloader() {
-		if (isTimeOK()) {
-			document.getElementById('nachtPauseDiv').style.display = "none";
-		} else {
-			document.getElementById('nachtPauseDiv').style.display = "block";
-			return;
-		}
-		
 		jQuery.getJSON(currentPowerFlowDownloaderUrl, function(json) {
             if (Object.hasOwn(json, "error")) {
                 return;
@@ -451,11 +433,11 @@
                 return;
             }
 
-            let html = "<table style='margin-right:auto; margin-left: auto; font-family:khand, Helvetica, Arial, sans-serif; font-size: 1.7vmin; font-weight: bold;border-collapse: collapse;'>";
-            html += "<tr style='margin-right=10px;border-bottom: 2px solid black;'>";
+            let html = "<table style='margin-right:auto; margin-left: auto; font-family:khand, Helvetica, Arial, sans-serif; font-size: 1.6vmin; font-weight: bold;border-collapse: collapse;'>";
+            html += "<tr style='margin-right=1vh;border-bottom: 2px solid black'>";
             html += "<td style='border-right: 1px solid gray;padding-right: 10px;vertical-align: bottom'>Fenster</td>";
             html += "<td style='border-right: 1px solid gray;padding-left: 10px;padding-right: 10px;;vertical-align: bottom'>Status</td>";
-            html += "<td style='padding-left: 10px;;vertical-align: bottom'>schließt auto-<br>matisch in</td>";
+            html += "<td style='padding-left: 1vh;vertical-align: bottom'>schließt auto-<br>matisch in</td>";
             html += "</tr>";
             for (const shutterId in json) {
                 let shutter = json[shutterId];
@@ -469,13 +451,13 @@
                 let timerActive = shutter["timerActive"];
                 let timeToClose = shutter["timeToClose"];
 
-                html += "<tr style='border-top: 1px solid gray;'>";
-                html += "<td style='border-right: 1px solid gray;padding-right: 10px;'>" + name + "</td>";
-                html += "<td style='border-right: 1px solid gray;padding-left: 10px;padding-right: 10px;'>" + state + "</td>";
+                html += "<tr style='border-top: 1px solid gray'>";
+                html += "<td style='border-right: 1px solid gray;padding-right: 1vh;'>" + name + "</td>";
+                html += "<td style='border-right: 1px solid gray;padding-left: 1vh;padding-right: 1vh;'>" + state + "</td>";
                 if (timerActive) {
-                    html += "<td style='padding-left: 10px;'>" + timeToClose + "</td>";
+                    html += "<td style='padding-left: 1vh;'>" + timeToClose + "</td>";
                 } else {
-                    html += "<td style='padding-left: 10px;'></td>";
+                    html += "<td style='padding-left: 1vh;'></td>";
                 }
                 html += "</tr>";
             }
@@ -489,7 +471,8 @@
         let currentdate = new Date();
         let zeit = getHours(currentdate) + ":" + getMinutes(currentdate);
         let datum = getDays(currentdate) + "." + getMonths(currentdate) + "." +getYears(currentdate) + "<br>" +
-            getDays(currentdate) + ". " + getMonthName(currentdate).substring(0, 3) + "  " +getYears(currentdate);
+            getDays(currentdate) + ". " + getMonthName(currentdate).substring(0, 3) + "  " +getYears(currentdate) + "<br>" +
+            "" + getDayOfWeek(currentdate);
 
         jQuery("#Uhrzeit").html(zeit);
         jQuery("#Datum").html(datum);
@@ -793,25 +776,6 @@
 			document.getElementById('gridArrowRightImg').style.display = "none";
 		}
 	}
-	
-	function isTimeOK() {
-		let startTime = '05:49:00';
-		let endTime = '20:00:00';
-
-		let currentDate = new Date()   
-
-		startDate = new Date(currentDate.getTime());
-		startDate.setHours(startTime.split(":")[0]);
-		startDate.setMinutes(startTime.split(":")[1]);
-		startDate.setSeconds(startTime.split(":")[2]);
-
-		endDate = new Date(currentDate.getTime());
-		endDate.setHours(endTime.split(":")[0]);
-		endDate.setMinutes(endTime.split(":")[1]);
-		endDate.setSeconds(endTime.split(":")[2]);
-
-		return startDate < currentDate && endDate > currentDate;
-	}
 
     function getYears(date) {
         return date.getFullYear();
@@ -839,6 +803,12 @@
 
     function getSeconds(date) {
         return ((date.getSeconds() < 10) ? "0" : "") + date.getSeconds();
+    }
+
+    function getDayOfWeek(date) {
+        return date.toLocaleString(window.navigator.language, {
+            weekday: 'long'
+        });
     }
 	
 </script>

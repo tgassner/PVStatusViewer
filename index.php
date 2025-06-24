@@ -380,12 +380,18 @@
             let tempKino = json.tmpKino;
             let tempAussen = json.tmpAussen;
 
-
             jQuery("#tdZuschnittMitteGrad").html(tempMitte);
             jQuery("#tdZuschnittDeckeGrad").html(tempDecke);
             jQuery("#tdKinoGrad").html(tempKino);
             jQuery("#tdDrauszenGrad").html(tempAussen);
 
+            if (tempAussen >= 30.0) {
+                document.getElementById("tdDrauszenGrad").style.backgroundColor = "#ff474c";
+            } else if (tempAussen <= 15) {
+                document.getElementById("tdDrauszenGrad").style.backgroundColor = "#eaf6f9";
+            } else {
+                document.getElementById("tdDrauszenGrad").style.backgroundColor = "#ffffff";
+            }
 
             jQuery("#TempZuschnitt").html("Zuschnitt: Temperatur Mitte = " + tempMitte + "°C&nbsp;&nbsp;&nbsp;&nbsp;Decke = " + tempDecke + "°C<br>Temperatur Kino = " + tempKino + "°C<br>Temperatur Aussen = " + tempAussen + "°C   ");
         }).fail(function(a, b, c) {
@@ -451,9 +457,18 @@
                 let timerActive = shutter["timerActive"];
                 let timeToClose = shutter["timeToClose"];
 
+                let stateAdditionalStyle = "";
+                if (state.toUpperCase() === "OFFEN" || state.toUpperCase() === "OPEN") {
+                    stateAdditionalStyle = "background: aquamarine;";
+                } else if (state.toUpperCase() === "ÖFFNEND" || state.toUpperCase() === "OPENING") {
+                    stateAdditionalStyle = "background: cadetblue;";
+                } else if (state.toUpperCase() === "SCHLIESSEND" || state.toUpperCase() === "CLOSING") {
+                    stateAdditionalStyle = "background: cadetblue;";
+                }
+
                 html += "<tr style='border-top: 1px solid gray'>";
                 html += "<td style='border-right: 1px solid gray;padding-right: 1vh;'>" + name + "</td>";
-                html += "<td style='border-right: 1px solid gray;padding-left: 1vh;padding-right: 1vh;'>" + state + "</td>";
+                html += "<td style='border-right: 1px solid gray;padding-left: 1vh;padding-right: 1vh;" + stateAdditionalStyle + "'>" + state + "</td>";
                 if (timerActive) {
                     html += "<td style='padding-left: 1vh;'>" + timeToClose + "</td>";
                 } else {

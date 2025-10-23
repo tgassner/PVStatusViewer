@@ -487,13 +487,73 @@
         let zeit = getHours(currentdate) + ":" + getMinutes(currentdate);
         let datum = getDays(currentdate) + "." + getMonths(currentdate) + "." +getYears(currentdate) + "<br>" +
             getDays(currentdate) + ". " + getMonthName(currentdate).substring(0, 3) + "  " +getYears(currentdate) + "<br>" +
-            "" + getDayOfWeek(currentdate);
+            getDayOfWeek(currentdate) + "<br>" +
+            "KW-" + getWeek(currentdate);
 
         jQuery("#Uhrzeit").html(zeit);
         jQuery("#Datum").html(datum);
 
 	}
-	
+
+    /**
+     * thx to https://itbalance.de/javascript-und-die-kalenderwoche/
+     * @param d
+     * @returns {number|number|*}
+     */
+    function getWeek(d){
+
+        if (!d) {
+            return 0;
+        }
+
+        let date;
+        if (d instanceof Date) {
+            date = new Date(d.getTime());
+        } else {
+            // deliver JSON Date
+            if (d.includes(" ")) {
+                d = d.substring(0, d.indexOf(' '));
+            }
+            const x = d.split('-');
+            date = new Date(x[0], x[1] - 1, x[2], 11); // 11 = independent of time zone date switch
+        }
+        // january, 4th is always in week 1.
+        const week1 = new Date(date.getFullYear(), 0, 4, 11, 0, 0, 0);
+        const week1Monday = new Date(week1.getTime());
+        // get the monday of the first week
+        week1Monday.setDate(week1Monday.getDate() - (week1Monday.getDay() || 7) + 1);
+
+        // check, if cal week is equal to last week of past year
+        if (week1Monday.getTime() > date.getTime()) {
+            if (week1Monday.getFullYear() === week1.getFullYear()) {
+                return getWeek(new Date(week1Monday.getFullYear() - 1, 11, 31, 11));
+            }
+            return getWeek(new Date(week1Monday.getFullYear(), 11, 31, 11));
+        }
+
+        const firstOfYear  = new Date(date.getFullYear(), 0, 1, 11, 0, 0, 0);
+        const lastOfYear  = new Date(date.getFullYear(), 11, 31, 11, 0, 0, 0);
+
+        // check if current year is a leap year
+        const isLeap = date.getFullYear() % 4 === 0 && date.getFullYear() % 100 > 0;
+        // check if current year has 53 weeks
+        const has53 = !isLeap && (firstOfYear.getDay() === 4 && lastOfYear.getDay() === 4)  ||
+            (isLeap && (firstOfYear.getDay() === 3 && lastOfYear.getDay() === 4 || firstOfYear.getDay() === 4 && lastOfYear.getDay() === 5));
+
+        const dateMonday = new Date(date.getTime());
+        dateMonday.setDate(dateMonday.getDate() - (dateMonday.getDay() || 7) + 1);
+
+        // round is needed due to summer time / winter time difference ends up in non integer calculation
+        const weekOffset= (dateMonday.getTime() - week1Monday.getTime()) / 1000 / 60 / 60 / 24;
+
+        const result =  1 + Math.round(weekOffset / 7);
+        if(result === 53 && !has53) {
+            return 1;
+        } else {
+            return result;
+        }
+    }
+
 	function drawCurrrentViews() {
 		drawBar();
 		drawPie();

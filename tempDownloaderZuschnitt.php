@@ -1,8 +1,8 @@
 <?php
-$urlTempVerarbeitungMitte = "http://172.31.31.53/rpc/Temperature.GetStatus?id=100";
-$urlTempVerarbeitungDecke = "http://172.31.31.53/rpc/Temperature.GetStatus?id=101";
-$urlTempVerarbeitungKino = "http://172.31.31.53/rpc/Temperature.GetStatus?id=102";
-$urlTempVerarbeitungAussen = "http://172.31.31.53/rpc/Temperature.GetStatus?id=103";
+$urlTempVerarbeitungMitte = "http://172.31.93.53/rpc/Temperature.GetStatus?id=100";
+$urlTempVerarbeitungDecke = "http://172.31.93.53/rpc/Temperature.GetStatus?id=101";
+$urlTempVerarbeitungKino = "http://172.31.93.53/rpc/Temperature.GetStatus?id=102";
+$urlTempVerarbeitungAussen = "http://172.31.93.53/rpc/Temperature.GetStatus?id=103";
 
 $jsonStringTempMitte = file_get_contents($urlTempVerarbeitungMitte);
 $jsonStringTempDecke = file_get_contents($urlTempVerarbeitungDecke);

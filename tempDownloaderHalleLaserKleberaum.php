@@ -1,7 +1,7 @@
 <?php
-$urlTempHalleLaser = "http://172.31.31.58/rpc/Temperature.GetStatus?id=100";
-$urlTempKleberaum = "http://172.31.31.58/rpc/Temperature.GetStatus?id=101";
-$urlTempHalleDecke = "http://172.31.31.58/rpc/Temperature.GetStatus?id=102";
+$urlTempHalleLaser = "http://172.31.93.58/rpc/Temperature.GetStatus?id=100";
+$urlTempKleberaum = "http://172.31.93.58/rpc/Temperature.GetStatus?id=101";
+$urlTempHalleDecke = "http://172.31.93.58/rpc/Temperature.GetStatus?id=102";
 
 $jsonStringTempHalleLaser = file_get_contents($urlTempHalleLaser);
 $jsonStringTempKleberaum = file_get_contents($urlTempKleberaum);

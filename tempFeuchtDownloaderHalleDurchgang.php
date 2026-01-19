@@ -1,6 +1,6 @@
 <?php
-$urlTempHalleDurchgang = "http://172.31.31.59/rpc/Temperature.GetStatus?id=100";
-$urlFeuchtHalleDurchgang = "http://172.31.31.59/rpc/Humidity.GetStatus?id=100";
+$urlTempHalleDurchgang = "http://172.31.93.59/rpc/Temperature.GetStatus?id=100";
+$urlFeuchtHalleDurchgang = "http://172.31.93.59/rpc/Humidity.GetStatus?id=100";
 
 $jsonStringTemp = file_get_contents($urlTempHalleDurchgang);
 $jsonStringFeucht = file_get_contents($urlFeuchtHalleDurchgang);

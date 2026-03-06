@@ -196,10 +196,10 @@
     var lastSuccessfulCurrentPowerFlowDownload = new Date().getTime();
 	
 	currentPowerFlowDownloader();
-	setInterval(currentPowerFlowDownloader, 11000);
+	setInterval(currentPowerFlowDownloader, 20000); // 20 Sekunden
 
 	powerDetailsDownloader();
-	setInterval(powerDetailsDownloader, 1000 * 60 * 20); // 15 Minuten
+	setInterval(powerDetailsDownloader, 1000 * 60 * 20); // 20 Minuten
 
     setTimeout(reloadPage, 3720000); // reload complete page every 62 minutes...
 

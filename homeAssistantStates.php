@@ -60,9 +60,9 @@ foreach ($states as $state) {
             $timeToClose =
                 sprintf('%02d', intval($delta /(60*60)))
                 . ":" .
-                sprintf('%02d',(($delta /60)%60))
+                sprintf('%02d', ((int)($delta / 60) % 60))
                 . ":" .
-                sprintf('%02d',($delta % 60));
+                sprintf('%02d', ($delta % 60));
             $timer = array();
             $shutter["entity_id"] = $entity_id;
             $timer["timeToClose"] = $timeToClose;
@@ -87,6 +87,7 @@ foreach ($timers as $timer_entity_id => $timer) {
 //print_r($timers);
 
 $jsonReturn = json_encode($shutters);
+header("Content-type: application/json; charset=utf-8");
 echo($jsonReturn);
 ?>
 

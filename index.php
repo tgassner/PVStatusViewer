@@ -34,7 +34,10 @@
             </div>
 
             <div style="display: flex; flex-direction: row; height:38vh">
+                <div style="display: flex; flex-direction: column;">
                 <div id="homeAssistantStatusFenster" style="margin-right:auto; margin-left: auto;padding-top: 0.5vh"> </div>
+                <div id="statusWetter" style="margin-right:auto; margin-left: auto;padding-top: 0.5vh"></div>
+                </div>
                 <table style="margin-top: 1.6vh; margin-right:auto; margin-left: auto; border-collapse: collapse; font-family:khand, Helvetica, Arial, sans-serif; font-size: 1.7vmin; font-weight: bold;">
                     <tr style="border-bottom: 2px solid black;">
                         <th style="border-right: 1px solid gray; padding-right: 10px; text-align: left">Sensor</th>
@@ -166,6 +169,7 @@
     const halleDurchgangTempFeuchtDownloaderUrl = "tempFeuchtDownloaderHalleDurchgang.php"
     const halleLaserKleberaumTempDownloaderUrl = "tempDownloaderHalleLaserKleberaum.php"
     const homeAssistantStatusFensterDownloaderUrl = "homeAssistantStates.php";
+    const statusWetterDownloaderUrl = "statusDownloaderWetter.php";
 
 	var currentPowerUnit;
 	var gridStatus;
@@ -200,6 +204,9 @@
 
 	powerDetailsDownloader();
 	setInterval(powerDetailsDownloader, 1000 * 60 * 20); // 20 Minuten
+
+    statusWetterDownloader();
+    setInterval(statusWetterDownloader, 5000); // 5 Sekunden
 
     setTimeout(reloadPage, 3720000); // reload complete page every 62 minutes...
 
@@ -272,6 +279,27 @@
              console.log("error " + a + b + c + "   used Url:" + powerDetailsDownloaderUrlWithTime);
         });
 	}
+
+    function statusWetterDownloader() {
+        console.log("statusWetterDownloader triggered...");
+        jQuery.getJSON(statusWetterDownloaderUrl, function(json) {
+            if (Object.hasOwn(json, "error")) {
+                return;
+            }
+
+            let regen = json.regen;
+            let wind = json.wind;
+
+            console.log(" Wetter: regen=" + regen + " wind=" + wind);
+
+            let html = "regen=" + regen + " - wind=" + wind;
+
+            jQuery("#statusWetter").html(html);
+
+        }).fail(function(a, b, c) {
+            console.log("error " + a + b + c + "    used Url: " + statusWetterDownloaderUrl);
+        });
+    }
 
 	function currentPowerFlowDownloader() {
 		jQuery.getJSON(currentPowerFlowDownloaderUrl, function(json) {

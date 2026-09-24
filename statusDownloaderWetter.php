@@ -1,5 +1,5 @@
 <?php
-$urlStatusWetter = "http://172.31.31.51/rpc/Shelly.GetStatus";
+$urlStatusWetter = "http://172.31.93.51/rpc/Shelly.GetStatus";
 
 $jsonStringStatusWetter = file_get_contents($urlStatusWetter);
 

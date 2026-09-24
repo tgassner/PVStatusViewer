@@ -6,27 +6,80 @@
     <script src="js/chart.min.js"></script>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
+    <style>
+        .mainDivClass {
+            display: flex;
+            border: 1px solid black; border-radius: 8px;
+            margin:1px;
+        }
+        .weatherSubClass {
+            display: flex;
+            margin-top: 1.5vh;
+            flex-direction: column;
+        }
+
+        .weatherImageClass {
+            max-height: 17vh;
+            max-width: 17vh;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .weatherTextClass {
+            text-align: center;
+            font-family:khand, Helvetica, Arial, sans-serif;
+            color: rgb(0,150,190);
+            font-size: 2vmin;
+        }
+
+        .hide {
+            display: none;
+        }
+    </style>
 </head>
 <body style="margin: 0.7vmin;">
 
 <div id="mainTableDiv" style="display: flex;  flex-direction: column; height: 98vh; width:98vw">
     <div id="mainUpperPartDiv" style="display: flex; flex-direction: row; height: 49vh; width:100%">
-        <div id="barDiagrammMainDiv" style="display: flex; flex-direction: column; width:20%;border: 1px solid black; border-radius: 8px; margin:1px">
+        <div id="barDiagrammMainDiv" class="mainDivClass" style="flex-direction: column; width:13%;">
             <div id="OverviewBarInfoDiv" style="display: flex; text-align: center; font-family:khand, Helvetica, Arial, sans-serif; color: rgb(0,150,190); font-size: 1.55vmin; margin-left:8px; margin-top:3px"></div>
             <div style="height:90%; display: flex; padding:5px">
                 <canvas id="chartBarCanvas"></canvas>
             </div>
         </div>
-        <div id="cakeDiagrammMainDiv" style="display: flex; width:20%; border: 1px solid black; border-radius: 8px; margin:1px; padding:5px">
+        <div id="cakeDiagrammMainDiv" class="mainDivClass" style="width:15%;  ; padding:5px">
             <canvas id="chartPieCanvas"></canvas>
         </div>
-        <div id="shortHistoryMainDiv" style="display: flex;flex-direction: column; width:20%; border: 1px solid black; border-radius: 8px; margin:1px">
+        <div id="shortHistoryMainDiv" class="mainDivClass" style="flex-direction: column; width:20%;">
             <div id="smallHistoryInfoDiv" style="display: flex; text-align: center; font-family:khand, Helvetica, Arial, sans-serif; color: rgb(0,150,190); font-size: 2.6vmin; margin-left:8px"></div>
             <div style="height:90%; display: flex">
                 <canvas id="chartSmallHistoryCanvas"></canvas>
             </div>
         </div>
-        <div id="SensorMainDiv" style="display: flex; flex-direction:column;width:40%; border: 1px solid black; border-radius: 8px; margin:1px; position:relative">
+        <div id="WeatherMainDiv" class="mainDivClass" style="flex-direction: column; padding: 1vmin; width:12%;">
+            <div id="weatherHeadline" class="" style="text-align: center; font-family:khand, Helvetica, Arial, sans-serif; color: rgb(0,150,190); font-size: 3vmin; margin-left:8px">Wetter</div>
+
+            <div id="weatherRainIconDiv" class="weatherSubClass hide">
+                <div class="weatherTextClass">Regen</div>
+                <img src="img/rain.png" class="weatherImageClass" alt="Regen">
+            </div>
+
+            <div id="weatherDryIconDiv"  class="weatherSubClass hide">
+                <div class="weatherTextClass">Trocken</div>
+                <img src="img/dry.png"  class="weatherImageClass" alt="Trocken - kein Regen">
+            </div>
+
+            <div id="weatherWindIconDiv" class="weatherSubClass hide">
+                <div class="weatherTextClass">Sturm</div>
+                <img src="img/wind.png" class="weatherImageClass" alt="Wind">
+            </div>
+
+            <div id="weatherLullIconDiv" class="weatherSubClass hide">
+                <div class="weatherTextClass">Flaute</div>
+                <img src="img/loll.png" class="weatherImageClass" alt="Flaute">
+            </div>
+        </div>
+        <div id="SensorMainDiv" class="mainDivClass" style="flex-direction:column;width:40%; position:relative">
             <div style="display: flex; flex-direction: row; margin-top: 1vh; margin-bottom: 2vh;">
                 <div style="height:6vmin; display: flex; margin-left:auto; margin-right:auto"><img src="img/td_sz.svg" style="height:100%;width:100%" alt=""></div>
                 <div style="height:6vmin; display: flex; margin-left:auto; margin-right:auto"><img src="img/PLEXIGLAS-in-jeder-Form.svg" style="height:100%;width:100%" alt=""></div>
@@ -105,14 +158,14 @@
         </div>
     </div>
     <div id="mainLowerPartDiv" style="display: flex; flex-direction: row; height: 49vh; width: 100%">
-        <div id="longHistoryMainDiv" style="display: flex; flex-direction: column; width: 50%; border: 1px solid black; border-radius: 8px; margin:1px">
+        <div id="longHistoryMainDiv" class="mainDivClass" style="flex-direction: column; width: 50%; ">
             <div id="largeHistoryInfoDiv" style="display: flex; text-align: center; font-family:khand, Helvetica, Arial, sans-serif; color: rgb(0,150,190); font-size: 2vmin; margin-left: 15px">
             </div>
             <div style="height:85%; display: flex">
                 <canvas id="chartLargeHistoryCanvas"></canvas>
             </div>
         </div>
-        <div id="inputOutpuTimeMainDiv" style="display: flex; width: 50%; border: 1px solid black; border-radius: 8px; margin:1px; position: relative;">
+        <div id="inputOutputTimeMainDiv" class="mainDivClass" style="width: 50%; position: relative;">
             <div id="Datum" style="right: 2vmin; top:2vmin;font-family:khand, Helvetica, Arial, sans-serif; font-size: 5vmin; text-align: right;font-weight: bolder; position: absolute"></div>
             <div id="Uhrzeit" style="text-align: center;font-family:khand, Helvetica, Arial, sans-serif; font-size: 26vmin; top: -7vmin; font-weight: bolder; left: 3vmin; position: absolute"></div>
             <table style="width: 32vw;height:15vh;position: absolute;left: calc(25vw - 14.5vw); bottom:0">
@@ -290,11 +343,27 @@
             let regen = json.regen;
             let wind = json.wind;
 
-            console.log(" Wetter: regen=" + regen + " wind=" + wind);
+            //console.log(" Wetter: regen=" + regen + " wind=" + wind);
 
             let html = "regen=" + regen + " - wind=" + wind;
 
             jQuery("#statusWetter").html(html);
+
+            if (regen) {
+                document.getElementById("weatherRainIconDiv").classList.remove("hide");
+                document.getElementById("weatherDryIconDiv").classList.add("hide");
+            } else {
+                document.getElementById("weatherRainIconDiv").classList.add("hide");
+                document.getElementById("weatherDryIconDiv").classList.remove("hide");
+            }
+
+            if (wind) {
+                document.getElementById("weatherWindIconDiv").classList.remove("hide");
+                document.getElementById("weatherLullIconDiv").classList.add("hide");
+            } else {
+                document.getElementById("weatherWindIconDiv").classList.add("hide");
+                document.getElementById("weatherLullIconDiv").classList.remove("hide");
+            }
 
         }).fail(function(a, b, c) {
             console.log("error " + a + b + c + "    used Url: " + statusWetterDownloaderUrl);

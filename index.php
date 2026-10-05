@@ -254,6 +254,12 @@
 	currentPowerFlowDownloader();
 	setInterval(currentPowerFlowDownloader, 20000); // 20 Sekunden
 
+    lanInfoDownloader();
+    setInterval(lanInfoDownloader, 3000); // 3 Sekunden
+
+    dateTimeView();
+    setInterval(dateTimeView, 2000); // 2 Sekunden
+
 	powerDetailsDownloader();
 	setInterval(powerDetailsDownloader, 1000 * 60 * 20); // 20 Minuten
 
@@ -362,6 +368,72 @@
 
         }).fail(function(a, b, c) {
             console.log("error " + a + b + c + "    used Url: " + statusWetterDownloaderUrl);
+        });
+    }
+
+    function dateTimeView() {
+        let currentdate = new Date();
+        let zeit = getHours(currentdate) + ":" + getMinutes(currentdate);
+        let datum = getDays(currentdate) + "." + getMonths(currentdate) + "." +getYears(currentdate) + "<br>" +
+            getDays(currentdate) + ". " + getMonthName(currentdate).substring(0, 3) + "  " +getYears(currentdate) + "<br>" +
+            getDayOfWeek(currentdate) + "<br>" +
+            "KW-" + getWeek(currentdate);
+
+        jQuery("#Uhrzeit").html(zeit);
+        jQuery("#Datum").html(datum);
+    }
+
+    function lanInfoDownloader() {
+        jQuery.getJSON(homeAssistantStatusFensterDownloaderUrl, function(json) {
+            if (Object.hasOwn(json, "error")) {
+                jQuery("#homeAssistantStatusFenster").html("");
+                return;
+            }
+
+            let html = "<table style='margin-right:auto; margin-left: auto; font-family:khand, Helvetica, Arial, sans-serif; font-size: 1.6vmin; font-weight: bold;border-collapse: collapse;'>";
+            html += "<tr style='margin-right=1vh;border-bottom: 2px solid black'>";
+            html += "<td style='border-right: 1px solid gray;padding-right: 10px;vertical-align: bottom'>Fenster</td>";
+            html += "<td style='border-right: 1px solid gray;padding-left: 10px;padding-right: 10px;;vertical-align: bottom'>Status</td>";
+            html += "<td style='padding-left: 1vh;vertical-align: bottom'>schließt auto-<br>matisch in</td>";
+            html += "</tr>";
+            for (const shutterId in json) {
+                let shutter = json[shutterId];
+                let name = shutter["name"];
+                nameParts = name.split(" ");
+                if (nameParts.length === 2) {
+                    name = "<span style='font-weight: normal'>" + nameParts[0] + "</span><br>" + nameParts[1];
+                } else if (nameParts.length === 3) {
+                    name = "<span style='font-weight: normal'>" + nameParts[0] + "</span><br>" + nameParts[1] + " " + nameParts[2];
+                }
+
+                let state = shutter["state"];
+                let timerActive = shutter["timerActive"];
+                let timeToClose = shutter["timeToClose"];
+
+                let stateAdditionalStyle = "";
+                if (state.toUpperCase() === "OFFEN" || state.toUpperCase() === "OPEN") {
+                    stateAdditionalStyle = "background: aquamarine;";
+                } else if (state.toUpperCase() === "ÖFFNEND" || state.toUpperCase() === "OPENING") {
+                    stateAdditionalStyle = "background: cadetblue;";
+                } else if (state.toUpperCase() === "SCHLIESSEND" || state.toUpperCase() === "CLOSING") {
+                    stateAdditionalStyle = "background: cadetblue;";
+                }
+
+                html += "<tr style='border-top: 1px solid gray'>";
+                html += "<td style='border-right: 1px solid gray;padding-right: 1vh;'>" + name + "</td>";
+                html += "<td style='border-right: 1px solid gray;padding-left: 1vh;padding-right: 1vh;" + stateAdditionalStyle + "'>" + state + "</td>";
+                if (timerActive) {
+                    html += "<td style='padding-left: 1vh;'>" + timeToClose + "</td>";
+                } else {
+                    html += "<td style='padding-left: 1vh;'></td>";
+                }
+                html += "</tr>";
+            }
+            html += "</table>";
+
+            jQuery("#homeAssistantStatusFenster").html(html);
+        }).fail(function(a, b, c) {
+            console.log("error " + a + b + c + "    used Url: " + zuschnittTempDownloaderUrl);
         });
     }
 
@@ -525,69 +597,6 @@
         }).fail(function(a, b, c) {
             console.log("error " + a + b + c + "    used Url: " + zuschnittTempDownloaderUrl);
         });
-
-        jQuery.getJSON(homeAssistantStatusFensterDownloaderUrl, function(json) {
-            if (Object.hasOwn(json, "error")) {
-                jQuery("#homeAssistantStatusFenster").html("");
-                return;
-            }
-
-            let html = "<table style='margin-right:auto; margin-left: auto; font-family:khand, Helvetica, Arial, sans-serif; font-size: 1.6vmin; font-weight: bold;border-collapse: collapse;'>";
-            html += "<tr style='margin-right=1vh;border-bottom: 2px solid black'>";
-            html += "<td style='border-right: 1px solid gray;padding-right: 10px;vertical-align: bottom'>Fenster</td>";
-            html += "<td style='border-right: 1px solid gray;padding-left: 10px;padding-right: 10px;;vertical-align: bottom'>Status</td>";
-            html += "<td style='padding-left: 1vh;vertical-align: bottom'>schließt auto-<br>matisch in</td>";
-            html += "</tr>";
-            for (const shutterId in json) {
-                let shutter = json[shutterId];
-                let name = shutter["name"];
-                nameParts = name.split(" ");
-                if (nameParts.length === 2) {
-                    name = "<span style='font-weight: normal'>" + nameParts[0] + "</span><br>" + nameParts[1];
-                } else if (nameParts.length === 3) {
-                    name = "<span style='font-weight: normal'>" + nameParts[0] + "</span><br>" + nameParts[1] + " " + nameParts[2];
-                }
-
-                let state = shutter["state"];
-                let timerActive = shutter["timerActive"];
-                let timeToClose = shutter["timeToClose"];
-
-                let stateAdditionalStyle = "";
-                if (state.toUpperCase() === "OFFEN" || state.toUpperCase() === "OPEN") {
-                    stateAdditionalStyle = "background: aquamarine;";
-                } else if (state.toUpperCase() === "ÖFFNEND" || state.toUpperCase() === "OPENING") {
-                    stateAdditionalStyle = "background: cadetblue;";
-                } else if (state.toUpperCase() === "SCHLIESSEND" || state.toUpperCase() === "CLOSING") {
-                    stateAdditionalStyle = "background: cadetblue;";
-                }
-
-                html += "<tr style='border-top: 1px solid gray'>";
-                html += "<td style='border-right: 1px solid gray;padding-right: 1vh;'>" + name + "</td>";
-                html += "<td style='border-right: 1px solid gray;padding-left: 1vh;padding-right: 1vh;" + stateAdditionalStyle + "'>" + state + "</td>";
-                if (timerActive) {
-                    html += "<td style='padding-left: 1vh;'>" + timeToClose + "</td>";
-                } else {
-                    html += "<td style='padding-left: 1vh;'></td>";
-                }
-                html += "</tr>";
-            }
-            html += "</table>";
-
-            jQuery("#homeAssistantStatusFenster").html(html);
-        }).fail(function(a, b, c) {
-            console.log("error " + a + b + c + "    used Url: " + zuschnittTempDownloaderUrl);
-        });
-
-        let currentdate = new Date();
-        let zeit = getHours(currentdate) + ":" + getMinutes(currentdate);
-        let datum = getDays(currentdate) + "." + getMonths(currentdate) + "." +getYears(currentdate) + "<br>" +
-            getDays(currentdate) + ". " + getMonthName(currentdate).substring(0, 3) + "  " +getYears(currentdate) + "<br>" +
-            getDayOfWeek(currentdate) + "<br>" +
-            "KW-" + getWeek(currentdate);
-
-        jQuery("#Uhrzeit").html(zeit);
-        jQuery("#Datum").html(datum);
-
 	}
 
     /**

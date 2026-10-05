@@ -545,7 +545,7 @@
                 if (nameParts.length === 2) {
                     name = "<span style='font-weight: normal'>" + nameParts[0] + "</span><br>" + nameParts[1];
                 } else if (nameParts.length === 3) {
-                    name = "<span style='font-weight: normal'>" + nameParts[0] + "</span><br>" + nameParts[1] + nameParts[2];;
+                    name = "<span style='font-weight: normal'>" + nameParts[0] + "</span><br>" + nameParts[1] + " " + nameParts[2];
                 }
 
                 let state = shutter["state"];

@@ -89,7 +89,6 @@
             <div style="display: flex; flex-direction: row; height:38vh">
                 <div style="display: flex; flex-direction: column;">
                 <div id="homeAssistantStatusFenster" style="margin-right:auto; margin-left: auto;padding-top: 0.5vh"> </div>
-                <div id="statusWetter" style="margin-right:auto; margin-left: auto;padding-top: 0.5vh"></div>
                 </div>
                 <table style="margin-top: 1.6vh; margin-right:auto; margin-left: auto; border-collapse: collapse; font-family:khand, Helvetica, Arial, sans-serif; font-size: 1.7vmin; font-weight: bold;">
                     <tr style="border-bottom: 2px solid black;">
@@ -345,10 +344,6 @@
 
             //console.log(" Wetter: regen=" + regen + " wind=" + wind);
 
-            let html = "regen=" + regen + " - wind=" + wind;
-
-            jQuery("#statusWetter").html(html);
-
             if (regen) {
                 document.getElementById("weatherRainIconDiv").classList.remove("hide");
                 document.getElementById("weatherDryIconDiv").classList.add("hide");
@@ -533,6 +528,7 @@
 
         jQuery.getJSON(homeAssistantStatusFensterDownloaderUrl, function(json) {
             if (Object.hasOwn(json, "error")) {
+                jQuery("#homeAssistantStatusFenster").html("");
                 return;
             }
 
@@ -548,6 +544,8 @@
                 nameParts = name.split(" ");
                 if (nameParts.length === 2) {
                     name = "<span style='font-weight: normal'>" + nameParts[0] + "</span><br>" + nameParts[1];
+                } else if (nameParts.length === 3) {
+                    name = "<span style='font-weight: normal'>" + nameParts[0] + "</span><br>" + nameParts[1] + nameParts[2];;
                 }
 
                 let state = shutter["state"];

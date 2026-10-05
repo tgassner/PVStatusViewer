@@ -16,12 +16,12 @@ $opts = [
 
 $shutterStates = array("open" => "offen", "closed" => "geschlossen", "opening" => "öffnend", "closing" => "schließend", "unavailable" => "nicht verfügbar");
 
-$timerToShutter = array("timer.timerfensterschlieszenverarbeitung" => "cover.lichtkuppelverarbeitung",
-                    "timer.timerfensterschlieszenkueche" => "cover.lichtkuppelkueche",
-                    "timer.timerfensterschlieszenlaermraum" => "cover.lichtkuppellaermraum",
+$timerToShutter = array("timer.timerfensterschlieszenverarbeitungsued" => "cover.lichtkuppel_verarbeitung_sued",
+                    "timer.timerfensterschlieszenpolierraum" => "cover.lichtkuppelpolierraum",
+                    "timer.timerfensterschlieszenverarbeitungnord" => "cover.lichtkuppel_verarbeitung_nord",
                     "timer.timerfensterschlieszenzuschnitt" => "cover.lichtkuppelzuschnitt",
                     "timer.timerfensterschlieszenhalle" => "cover.kippfensterhalle",
-                    "timer.timerfensterschlieszenkleberaum" => "cover.kippfensterkleberaum");
+                    "timer.timerfensterschlieszenlaser" => "cover.kippfensterlaser");
 
 $context = stream_context_create($opts);
 
